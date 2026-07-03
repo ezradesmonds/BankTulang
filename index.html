@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bank Tulang — Skrining &amp; Edukasi Osteoporosis untuk Mahasiswa</title>
+<link rel="icon" type="image/png" href="assets/bank-tulang-logo-transparent.png">
+<link rel="apple-touch-icon" href="assets/bank-tulang-logo-transparent.png">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
@@ -380,6 +382,10 @@ body > footer{
 }
 .aw-nav .aw-wrap{ height:72px; display:flex; align-items:center; justify-content:space-between; gap:22px; }
 .aw-brand{ display:flex; align-items:center; gap:12px; font-weight:800; color:#fff8df; }
+.aw-brand-logo{
+  width:46px; height:46px; object-fit:contain; flex:0 0 auto;
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,.22));
+}
 .aw-mark{
   width:36px; height:36px; border-radius:50%; display:grid; place-items:center; color:#100820; font-weight:900;
   background:conic-gradient(from 220deg,#ffd84d,#6cc8ff,#a47cff,#ff8ed3,#6de06e,#ffd84d);
@@ -540,6 +546,9 @@ body > footer{
 @media(max-width:700px){
   .aw-links{ display:none; }
   .aw-wrap{ width:min(100% - 28px,1180px); }
+  .aw-nav .aw-wrap{ height:64px; gap:14px; }
+  .aw-brand{ gap:10px; font-size:.86rem; }
+  .aw-brand-logo{ width:40px; height:40px; }
   .aw-hero{ padding:36px 0 34px; }
   .aw-eyebrow{ gap:8px; flex-wrap:wrap; font-size:.62rem; line-height:1.35; }
   .aw-hero h1{ font-size:clamp(2.55rem,15vw,4.3rem); line-height:.92; max-width:9.6ch; }
@@ -571,7 +580,7 @@ body > footer{
 
   <nav class="aw-nav">
     <div class="aw-wrap">
-      <a href="#" class="aw-brand" aria-label="Beranda Bank Tulang"><span class="aw-mark">B</span><span>BANK TULANG</span></a>
+      <a href="#" class="aw-brand" aria-label="Beranda Bank Tulang"><img class="aw-brand-logo" src="assets/bank-tulang-logo-transparent.png" alt="Logo Bank Tulang"><span>BANK TULANG</span></a>
       <div class="aw-links">
         <a href="#aw-simulator">Simulasi</a>
         <a href="#aw-modul">Modul</a>
