@@ -549,12 +549,13 @@ body > footer{
   .aw-nav .aw-wrap{ height:64px; gap:14px; }
   .aw-brand{ gap:10px; font-size:.86rem; }
   .aw-brand-logo{ width:40px; height:40px; }
+  .aw-nav .aw-btn{ width:auto; min-width:132px; min-height:40px; padding:0 16px; font-size:.84rem; flex:0 0 auto; }
   .aw-hero{ padding:36px 0 34px; }
   .aw-eyebrow{ gap:8px; flex-wrap:wrap; font-size:.62rem; line-height:1.35; }
   .aw-hero h1{ font-size:clamp(2.55rem,15vw,4.3rem); line-height:.92; max-width:9.6ch; }
   .aw-lede{ max-width:100%; font-size:.98rem; }
   .aw-actions{ flex-direction:column; align-items:stretch; }
-  .aw-btn{ width:100%; }
+  .aw-actions .aw-btn{ width:100%; }
   .aw-metrics{ margin-top:28px; }
   .aw-section{ padding:68px 0; }
   .aw-metrics,.aw-score-line,.aw-component-grid{ grid-template-columns:1fr; }
@@ -563,6 +564,10 @@ body > footer{
 }
 @media(max-width:420px){
   .aw-wrap{ width:min(100% - 22px,1180px); }
+  .aw-nav .aw-wrap{ gap:10px; }
+  .aw-brand{ gap:8px; font-size:.8rem; }
+  .aw-brand-logo{ width:36px; height:36px; }
+  .aw-nav .aw-btn{ min-width:116px; min-height:38px; padding:0 14px; font-size:.8rem; }
   .aw-hero h1{ font-size:clamp(2.35rem,14vw,3.5rem); max-width:9.2ch; }
   .aw-spine,.aw-spine img{ min-height:330px; height:330px; }
   .aw-metric{ padding:14px; }
