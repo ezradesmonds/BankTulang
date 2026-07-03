@@ -426,8 +426,8 @@ body > footer{
 .aw-lede{ font-size:clamp(1rem,2vw,1.2rem); max-width:48ch; color:#efe3ff; margin:0 0 28px; }
 .aw-actions{ display:flex; gap:12px; flex-wrap:wrap; }
 .aw-metrics{
-  display:grid; grid-template-columns:repeat(2,1fr); gap:1px; margin-top:42px;
-  border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.18); border-radius:8px; overflow:hidden; max-width:520px;
+  display:grid; grid-template-columns:1fr; gap:1px; margin-top:42px;
+  border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.18); border-radius:8px; overflow:hidden; max-width:320px;
 }
 .aw-metric{ background:rgba(255,255,255,.055); padding:18px; }
 .aw-metric b{ display:block; font-size:1.45rem; line-height:1; font-family:'IBM Plex Mono', monospace; color:#fff8df; }
@@ -678,7 +678,6 @@ body > footer{
         </div>
         <div class="aw-metrics" aria-label="Ringkasan Bank Tulang">
           <div class="aw-metric"><b>12</b><span>item kuis adaptasi OKAT</span></div>
-          <div class="aw-metric"><b>&lt;60s</b><span>konten mikro-edukasi</span></div>
         </div>
       </div>
 
@@ -1699,7 +1698,7 @@ document.querySelectorAll('[data-component]').forEach(el=>{
     video: {
       title: 'Video Pendek Edukasi',
       action: 'Buka video',
-      href: 'https://drive.google.com/file/d/1mAA1__ZVA-WlDWuRxVx8QfKM8oQ33wQZ/view?usp=drive_link',
+      href: 'https://drive.google.com/file/d/1z7gFVcDU89_zFaoF5VaeZM5km7m-5ozk/view?usp=drive_link',
       body: '<div class="aw-media-player"><p class="aw-media-note">Video pendek edukasi tersedia melalui Google Drive agar ukuran file website tetap ringan dan aman untuk GitHub.</p><a class="aw-btn primary" href="https://drive.google.com/file/d/1mAA1__ZVA-WlDWuRxVx8QfKM8oQ33wQZ/view?usp=drive_link" target="_blank" rel="noopener">Buka video di Google Drive</a></div>'
     }
   };
