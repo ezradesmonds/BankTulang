@@ -711,16 +711,16 @@ body > footer{
             <p>Sesuaikan nilai pada setiap variabel untuk melihat perubahan indikator kesiapan.</p>
             <div class="aw-slider-set">
               <div class="aw-range">
-                <label for="awKnowledge">Jawaban OKAT benar <output id="awKnowledgeOut">7 / 12</output></label>
-                <input id="awKnowledge" type="range" min="0" max="12" value="7">
+                <label for="awKnowledge">Jawaban OKAT benar <output id="awKnowledgeOut">0 / 12</output></label>
+                <input id="awKnowledge" type="range" min="0" max="12" value="0">
               </div>
               <div class="aw-range">
-                <label for="awCalcium">Kalsium tercatat hari ini <output id="awCalciumOut">720 mg</output></label>
-                <input id="awCalcium" type="range" min="0" max="1400" step="20" value="720">
+                <label for="awCalcium">Kalsium tercatat hari ini <output id="awCalciumOut">0 mg</output></label>
+                <input id="awCalcium" type="range" min="0" max="1400" step="20" value="0">
               </div>
               <div class="aw-range">
-                <label for="awActivity">Sesi latihan menumpu beban <output id="awActivityOut">3 / minggu</output></label>
-                <input id="awActivity" type="range" min="0" max="7" value="3">
+                <label for="awActivity">Sesi latihan menumpu beban <output id="awActivityOut">0 / minggu</output></label>
+                <input id="awActivity" type="range" min="0" max="7" value="0">
               </div>
             </div>
             <div class="aw-actions" style="margin-top:28px">
@@ -733,16 +733,16 @@ body > footer{
             <h3>Indikator Kesiapan</h3>
             <p>Panel ini menampilkan estimasi kesiapan berdasarkan parameter yang dipilih.</p>
             <div class="aw-score-line">
-              <div class="aw-score-ring" id="awRing"><b id="awScore">58</b></div>
+              <div class="aw-score-ring" id="awRing"><b id="awScore">0</b></div>
               <div class="aw-outcome">
-                <strong id="awLabel">Kesiapan Sedang</strong>
-                <span id="awAdvice">Nilai dasar sudah cukup. Pencatatan kalsium dan tambahan satu sesi aktivitas dapat meningkatkan indikator kesiapan.</span>
+                <strong id="awLabel">Perlu Penguatan</strong>
+                <span id="awAdvice">Perlu penguatan awal melalui pengisian kuis, pencatatan kalsium, dan latihan menumpu beban secara bertahap.</span>
               </div>
             </div>
             <div class="aw-bars">
-              <div class="aw-bar"><span>Pengetahuan</span><div class="aw-track"><div class="aw-fill" id="awKnowledgeFill"></div></div><span id="awKnowledgePct">58%</span></div>
-              <div class="aw-bar"><span>Kalsium</span><div class="aw-track"><div class="aw-fill blue" id="awCalciumFill"></div></div><span id="awCalciumPct">72%</span></div>
-              <div class="aw-bar"><span>Aktivitas</span><div class="aw-track"><div class="aw-fill green" id="awActivityFill"></div></div><span id="awActivityPct">43%</span></div>
+              <div class="aw-bar"><span>Pengetahuan</span><div class="aw-track"><div class="aw-fill" id="awKnowledgeFill"></div></div><span id="awKnowledgePct">0%</span></div>
+              <div class="aw-bar"><span>Kalsium</span><div class="aw-track"><div class="aw-fill blue" id="awCalciumFill"></div></div><span id="awCalciumPct">0%</span></div>
+              <div class="aw-bar"><span>Aktivitas</span><div class="aw-track"><div class="aw-fill green" id="awActivityFill"></div></div><span id="awActivityPct">0%</span></div>
             </div>
           </div>
         </div>
@@ -771,7 +771,7 @@ body > footer{
       <div class="aw-wrap">
         <div class="aw-kicker">Media pendukung</div>
         <h2 class="aw-title aw-display">Pusat edukasi Bank Tulang.</h2>
-        <p class="aw-copy">Pilih salah satu materi untuk menampilkan preview di halaman. Setiap preview tetap memiliki tombol untuk membuka file penuh. Jika ada media yang tidak tampil, akses melalui <a href="https://drive.google.com/drive/folders/1pP703udBYQPWrRgj0uS4XB1n_hM76NBE?usp=sharing" target="_blank" rel="noopener" style="color:#ffd84d;font-weight:900;">folder Google Drive</a>.</p>
+        <p class="aw-copy">Pilih salah satu materi untuk menampilkan preview. Setiap preview tetap memiliki tombol untuk membuka file penuh tanpa menampilkan lampiran administratif.</p>
         <div class="aw-education-console">
           <div class="aw-media-menu" aria-label="Pilihan media edukasi">
             <button class="aw-media-option" type="button" data-media="booklet"><span class="aw-media-icon">PDF</span><span><strong>E-booklet / Modul</strong><span>Panduan membaca materi edukasi Bank Tulang.</span></span><small>Preview</small></button>
@@ -1354,6 +1354,7 @@ function renderQuiz(){
     state.quizRaw = raw;
     state.quizCategory = band.category;
     state.quizInterpretation = band.interpretation;
+    if(typeof window.syncAwardSimulation === 'function') window.syncAwardSimulation({ knowledge: raw });
     document.getElementById('quizResult').innerHTML = `
       <div class="score-card">
         <div class="progress-label"><span>Skor Kesehatan Tulang</span><span>${raw}/${QUIZ_ITEMS.length} · ${pct}%</span></div>
@@ -1406,6 +1407,7 @@ function renderCalcium(){
     state.calciumLogItems.push(f);
     document.getElementById('calTotal').textContent = state.calciumLogged + ' mg';
     document.getElementById('calFill').style.width = Math.min(100, state.calciumLogged/state.calciumTarget*100) + '%';
+    if(typeof window.syncAwardSimulation === 'function') window.syncAwardSimulation({ calcium: state.calciumLogged });
     renderFoodLog();
     searchInput.value = '';
     suggestBox.style.display = 'none';
@@ -1617,6 +1619,19 @@ document.querySelectorAll('[data-component]').forEach(el=>{
     $('#awActivityPct').textContent = `${aPct}%`;
   }
 
+  window.syncAwardSimulation = ({ knowledge: nextKnowledge, calcium: nextCalcium, activity: nextActivity } = {}) => {
+    if(nextKnowledge !== undefined && knowledge){
+      knowledge.value = clamp(Number(nextKnowledge) || 0, Number(knowledge.min), Number(knowledge.max));
+    }
+    if(nextCalcium !== undefined && calcium){
+      calcium.value = clamp(Number(nextCalcium) || 0, Number(calcium.min), Number(calcium.max));
+    }
+    if(nextActivity !== undefined && activity){
+      activity.value = clamp(Number(nextActivity) || 0, Number(activity.min), Number(activity.max));
+    }
+    updateAwSimulation();
+  };
+
   [knowledge, calcium, activity].forEach(input => input && input.addEventListener('input', updateAwSimulation));
   $('#awBoost')?.addEventListener('click', () => {
     knowledge.value = 10;
@@ -1626,9 +1641,9 @@ document.querySelectorAll('[data-component]').forEach(el=>{
     if(typeof showToast === 'function') showToast('Skenario dinaikkan');
   });
   $('#awReset')?.addEventListener('click', () => {
-    knowledge.value = 7;
-    calcium.value = 720;
-    activity.value = 3;
+    knowledge.value = 0;
+    calcium.value = 0;
+    activity.value = 0;
     updateAwSimulation();
   });
 
