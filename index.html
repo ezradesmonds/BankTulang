@@ -1595,21 +1595,29 @@ document.querySelectorAll('[data-component]').forEach(el=>{
     const cPct = clamp(Math.round(c / 1000 * 100), 0, 100);
     const aPct = Math.round(a / 7 * 100);
     const score = Math.round(kPct * .44 + cPct * .34 + aPct * .22);
-    const strong = score >= 78;
-    const medium = score >= 54;
 
     $('#awKnowledgeOut').textContent = `${k} / 12`;
     $('#awCalciumOut').textContent = `${c} mg`;
     $('#awActivityOut').textContent = `${a} / minggu`;
     scoreText.textContent = score;
-    label.textContent = strong ? 'Kesiapan Baik' : medium ? 'Kesiapan Sedang' : 'Perlu Penguatan';
-    advice.textContent = strong
-      ? 'Indikator kesiapan sudah baik. Pertahankan pencatatan dan aktivitas secara konsisten.'
-      : medium
-        ? 'Nilai dasar sudah cukup. Pencatatan kalsium dan tambahan satu sesi aktivitas dapat meningkatkan indikator kesiapan.'
-        : 'Perlu penguatan awal melalui pengisian kuis, pencatatan kalsium, dan latihan menumpu beban secara bertahap.';
+    const isOptimal = score >= 75;
+    const isSedang = score >= 40;
+    label.textContent = isOptimal ? 'Kesiapan Optimal' : isSedang ? 'Kesiapan Sedang' : 'Kesiapan Awal';
+    const baseAdvice = isOptimal
+      ? 'Ketiga aspek sudah konsisten. Pertahankan ritme ini \u2014 kamu di jalur yang tepat menuju peak bone mass optimal.'
+      : isSedang
+        ? 'Nilai dasarmu sudah cukup. Satu komponen di bawah ini jadi peluang paling cepat untuk naik level.'
+        : 'Ini titik awal yang wajar \u2014 semua orang mulai dari sini. Fokus dulu ke satu kebiasaan kecil sebelum menambah yang lain.';
+    const weakestPct = Math.min(kPct, cPct, aPct);
+    let weakMsg = '';
+    if(!isOptimal){
+      if(weakestPct === kPct) weakMsg = '<br><br><strong>Pengetahuan (' + kPct + '%)</strong> jadi titik paling perlu diperkuat \u2014 coba buka Educational Hub atau ulangi Bone Health Quiz minggu ini.';
+      else if(weakestPct === cPct) weakMsg = '<br><br><strong>Kalsium (' + cPct + '%)</strong> jadi titik paling bisa ditingkatkan \u2014 coba catat asupan harianmu di Calcium Tracker secara rutin.';
+      else weakMsg = '<br><br><strong>Aktivitas (' + aPct + '%)</strong> jadi titik paling bisa ditingkatkan \u2014 coba tambah satu sesi weight-bearing lagi minggu ini.';
+    }
+    advice.innerHTML = baseAdvice + weakMsg;
     ring.style.setProperty('--ring', `${score * 3.6}deg`);
-    ring.style.setProperty('--ring-color', strong ? '#6de06e' : medium ? '#ffd84d' : '#ff5a55');
+    ring.style.setProperty('--ring-color', isOptimal ? '#6de06e' : isSedang ? '#ffd84d' : '#ff5a55');
     $('#awKnowledgeFill').style.width = `${kPct}%`;
     $('#awCalciumFill').style.width = `${cPct}%`;
     $('#awActivityFill').style.width = `${aPct}%`;
