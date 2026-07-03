@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bank Tulang — Skrining &amp; Edukasi Osteoporosis untuk Mahasiswa</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --film: #0B1016;
+  --film-2: #11181F;
+  --bone: #F1ECDE;
+  --bone-dim: #DCD5C0;
+  --phosphor: #5FB4E0;
+  --phosphor-dim: #3A7896;
+  --alert: #E0714A;
+  --good: #8AB07A;
+  --ink: #1B1A16;
+  --ink-soft: #5C5A50;
+  --line: rgba(241,236,222,0.14);
+  --line-dark: rgba(27,26,22,0.12);
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter', sans-serif;
+  background:var(--bone);
+  color:var(--ink);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{ background:var(--phosphor); color:var(--film); }
+:focus-visible{ outline:2px solid var(--phosphor); outline-offset:3px; }
+
+h1,h2,h3{ font-family:'Space Grotesk', sans-serif; letter-spacing:-0.01em; }
+.mono{ font-family:'IBM Plex Mono', monospace; }
+
+.wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+
+/* ---------- NAV ---------- */
+nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(11,16,22,0.92); backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+nav .wrap{ display:flex; align-items:center; justify-content:space-between; height:64px; }
+.logo{ color:var(--bone); font-weight:700; font-size:1.05rem; display:flex; align-items:center; gap:10px; }
+.logo .dot{ width:8px; height:8px; border-radius:50%; background:var(--phosphor); box-shadow:0 0 8px var(--phosphor); }
+.navlinks{ display:flex; gap:28px; }
+.navlinks a{ color:var(--bone-dim); text-decoration:none; font-size:0.88rem; font-weight:500; transition:color .2s;}
+.navlinks a:hover{ color:var(--phosphor); }
+.nav-cta{
+  background:var(--phosphor); color:var(--film); padding:9px 18px; border-radius:3px;
+  font-size:0.85rem; font-weight:600; text-decoration:none; border:none; cursor:pointer;
+}
+@media (max-width:760px){ .navlinks{ display:none; } }
+
+/* ---------- HERO (radiograph) ---------- */
+.hero{
+  position:relative; overflow:hidden;
+  background:
+    radial-gradient(ellipse at 70% 20%, rgba(95,180,224,0.10), transparent 55%),
+    linear-gradient(180deg, var(--film) 0%, var(--film-2) 100%);
+  color:var(--bone);
+  padding:88px 0 64px;
+  border-bottom:1px solid var(--line);
+}
+.hero-grid{
+  display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px; align-items:center;
+}
+@media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
+
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--phosphor); border:1px solid var(--phosphor-dim); padding:6px 12px; border-radius:2px;
+  margin-bottom:24px;
+}
+.hero h1{
+  font-size:clamp(2.3rem, 4.6vw, 3.6rem); font-weight:700; line-height:1.04; margin-bottom:20px;
+}
+.hero h1 em{ font-style:normal; color:var(--phosphor); }
+.hero p.lede{ font-size:1.08rem; color:var(--bone-dim); max-width:46ch; margin-bottom:32px; }
+
+.hero-actions{ display:flex; gap:14px; flex-wrap:wrap; }
+.btn-primary{
+  background:var(--phosphor); color:var(--film); border:none; padding:14px 26px; border-radius:3px;
+  font-weight:600; font-size:0.95rem; cursor:pointer; text-decoration:none; display:inline-block;
+}
+.btn-ghost{
+  background:transparent; color:var(--bone); border:1px solid var(--line); padding:14px 26px; border-radius:3px;
+  font-weight:600; font-size:0.95rem; cursor:pointer; text-decoration:none; display:inline-block;
+}
+.btn-ghost:hover{ border-color:var(--phosphor); color:var(--phosphor); }
+
+/* bone scan visual */
+.scan-frame{
+  position:relative; aspect-ratio:4/5; border:1px solid var(--line); border-radius:4px;
+  background:linear-gradient(180deg, rgba(95,180,224,0.04), transparent);
+  overflow:hidden;
+}
+.scan-frame svg{ width:100%; height:100%; display:block; }
+.scanline{
+  position:absolute; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--phosphor), transparent);
+  box-shadow:0 0 18px 2px var(--phosphor);
+  animation:sweep 4.5s ease-in-out infinite;
+}
+@keyframes sweep{
+  0%,100%{ top:6%; opacity:.9; }
+  50%{ top:92%; opacity:.6; }
+}
+.scan-readout{
+  position:absolute; bottom:14px; left:14px; right:14px;
+  font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--phosphor);
+  display:flex; justify-content:space-between; opacity:0.85;
+}
+@media (prefers-reduced-motion: reduce){ .scanline{ animation:none; top:50%; } }
+
+/* ---------- STAT STRIP ---------- */
+.statstrip{ background:var(--film-2); border-bottom:1px solid var(--line); }
+.statstrip .wrap{ display:flex; flex-wrap:wrap; gap:0; }
+.stat{ flex:1; min-width:160px; padding:22px 0; border-right:1px solid var(--line); }
+.stat:last-child{ border-right:none; }
+.stat .num{ font-family:'IBM Plex Mono', monospace; color:var(--phosphor); font-size:1.5rem; font-weight:600; }
+.stat .lbl{ color:var(--bone-dim); font-size:0.78rem; margin-top:4px; }
+
+/* ---------- SECTION HEADERS ---------- */
+.section{ padding:84px 0; }
+.section-head{ max-width:640px; margin-bottom:48px; }
+.section-tag{
+  font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--ink-soft); margin-bottom:12px; display:block;
+}
+.section-head h2{ font-size:clamp(1.6rem,3vw,2.2rem); margin-bottom:14px; }
+.section-head p{ color:var(--ink-soft); font-size:1rem; }
+
+/* ---------- COMPONENT CARDS ---------- */
+.phase-label{
+  display:flex; align-items:center; gap:12px; margin:0 0 24px;
+  font-family:'IBM Plex Mono', monospace; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft);
+}
+.phase-label::after{ content:''; flex:1; height:1px; background:var(--line-dark); }
+.card-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line-dark); border:1px solid var(--line-dark); margin-bottom:56px;}
+@media (max-width:900px){ .card-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:560px){ .card-grid{ grid-template-columns:1fr; } }
+.card{
+  background:var(--bone); padding:26px 22px; min-height:200px; display:flex; flex-direction:column;
+}
+.card .idx{ font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--phosphor-dim); margin-bottom:14px; }
+.card h3{ font-size:1.02rem; margin-bottom:10px; line-height:1.25; }
+.card p{ font-size:0.86rem; color:var(--ink-soft); flex:1; }
+.card .method{
+  margin-top:14px; font-size:0.7rem; font-family:'IBM Plex Mono', monospace; color:var(--ink-soft);
+  text-transform:uppercase; letter-spacing:0.04em; border-top:1px solid var(--line-dark); padding-top:10px;
+}
+
+/* ---------- DARK ENGAGEMENT SECTION ---------- */
+.engage{
+  background:linear-gradient(180deg, var(--film) 0%, var(--film-2) 100%); color:var(--bone);
+}
+.engage .section-tag{ color:var(--phosphor); }
+.engage .section-head p{ color:var(--bone-dim); }
+
+.leaderboard{
+  border:1px solid var(--line); border-radius:4px; overflow:hidden; background:rgba(255,255,255,0.02);
+}
+.lb-row{
+  display:grid; grid-template-columns:50px 1fr 100px 90px; align-items:center; gap:12px;
+  padding:14px 20px; border-bottom:1px solid var(--line); font-size:0.9rem;
+}
+.lb-row:last-child{ border-bottom:none; }
+.lb-row.head{
+  font-family:'IBM Plex Mono', monospace; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em;
+  color:var(--bone-dim); background:rgba(255,255,255,0.03);
+}
+.lb-rank{ font-family:'IBM Plex Mono', monospace; color:var(--phosphor); font-weight:600; }
+.lb-name{ font-weight:500; }
+.lb-name span{ display:block; font-size:0.76rem; color:var(--bone-dim); font-weight:400; }
+.lb-pts{ font-family:'IBM Plex Mono', monospace; text-align:right; }
+.lb-badge{
+  justify-self:end; font-size:0.68rem; padding:3px 9px; border-radius:20px; font-family:'IBM Plex Mono', monospace;
+  background:rgba(138,176,122,0.15); color:var(--good); border:1px solid rgba(138,176,122,0.3);
+}
+
+.engage-grid{ display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start; }
+@media (max-width:860px){ .engage-grid{ grid-template-columns:1fr; } }
+
+.badge-row{ display:flex; gap:14px; flex-wrap:wrap; margin-top:24px; }
+.badge-pill{
+  display:flex; align-items:center; gap:8px; border:1px solid var(--line); padding:8px 14px; border-radius:30px;
+  font-size:0.78rem; color:var(--bone-dim);
+}
+.badge-pill .ico{ width:8px; height:8px; border-radius:50%; background:var(--phosphor); }
+
+/* ---------- FOOTER ---------- */
+footer{ background:var(--film); color:var(--bone-dim); padding:48px 0 28px; border-top:1px solid var(--line); }
+footer .wrap{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:24px; }
+footer .fnote{ font-size:0.78rem; max-width:42ch; }
+footer .flogo{ color:var(--bone); font-family:'Space Grotesk', sans-serif; font-weight:700; }
+
+.cite{ font-size:0.7rem; color:var(--ink-soft); }
+
+/* ---------- INTERACTIVE CARDS ---------- */
+.card{ cursor:pointer; transition:background .15s; position:relative; }
+.card:hover{ background:#EAE4D2; }
+.card:hover .idx{ color:var(--phosphor); }
+.card .tap{
+  margin-top:14px; font-size:0.72rem; font-family:'IBM Plex Mono', monospace; color:var(--phosphor-dim);
+  display:flex; align-items:center; gap:6px;
+}
+.card .tap::after{ content:'→'; transition:transform .15s; }
+.card:hover .tap::after{ transform:translateX(3px); }
+
+.engage-clickable{ cursor:pointer; }
+.engage-clickable:hover h3{ color:var(--phosphor); }
+
+/* modal */
+.modal-overlay{
+  position:fixed; inset:0; background:rgba(11,16,22,0.72); backdrop-filter:blur(3px);
+  display:none; align-items:center; justify-content:center; z-index:200; padding:24px;
+}
+.modal-overlay.open{ display:flex; }
+.modal-box{
+  background:var(--bone); color:var(--ink); width:100%; max-width:480px; max-height:86vh; overflow-y:auto;
+  border-radius:6px; border:1px solid var(--line-dark); position:relative;
+}
+.modal-head{
+  display:flex; justify-content:space-between; align-items:flex-start; padding:24px 24px 0;
+}
+.modal-head .idx{ font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--phosphor-dim); display:block; margin-bottom:8px;}
+.modal-head h3{ font-size:1.2rem; }
+.modal-close{
+  background:none; border:1px solid var(--line-dark); width:30px; height:30px; border-radius:50%;
+  font-size:1rem; cursor:pointer; color:var(--ink-soft); line-height:1; flex-shrink:0;
+}
+.modal-close:hover{ border-color:var(--phosphor-dim); color:var(--phosphor-dim); }
+.modal-body{ padding:18px 24px 26px; font-size:0.9rem; }
+.modal-body p{ color:var(--ink-soft); margin-bottom:14px; }
+
+.mform-row{ margin-bottom:14px; }
+.mform-row label{ display:block; font-size:0.78rem; font-weight:600; margin-bottom:6px; }
+.mform-row select, .mform-row input[type=number], .mform-row input[type=text]{
+  width:100%; padding:9px 10px; border:1px solid var(--line-dark); border-radius:3px; font-family:'Inter',sans-serif; font-size:0.88rem;
+  background:#fff;
+}
+.mbtn{
+  background:var(--phosphor); color:var(--film); border:none; padding:10px 18px; border-radius:3px;
+  font-weight:600; font-size:0.85rem; cursor:pointer; margin-top:4px;
+}
+.mbtn:hover{ background:var(--phosphor-dim); }
+.mbtn.secondary{ background:transparent; border:1px solid var(--line-dark); color:var(--ink); }
+
+.progress-track{ height:8px; background:var(--line-dark); border-radius:10px; overflow:hidden; margin:8px 0 4px; }
+.progress-fill{ height:100%; background:var(--phosphor); border-radius:10px; transition:width .3s ease; }
+.progress-label{ font-family:'IBM Plex Mono', monospace; font-size:0.76rem; color:var(--ink-soft); display:flex; justify-content:space-between; }
+
+.quiz-q{ margin-bottom:16px; }
+.quiz-q .qtext{ font-weight:600; font-size:0.88rem; margin-bottom:8px; }
+.quiz-opt{ display:flex; align-items:center; gap:8px; padding:7px 0; font-size:0.86rem; cursor:pointer; }
+.quiz-opt input{ accent-color:var(--phosphor); }
+
+.food-list{ display:flex; flex-direction:column; gap:0; border:1px solid var(--line-dark); border-radius:4px; margin-top:10px; max-height:140px; overflow-y:auto; box-shadow:0 6px 16px rgba(0,0,0,0.08); }
+.food-item{ display:flex; justify-content:space-between; padding:8px 12px; font-size:0.84rem; border-bottom:1px solid var(--line-dark); }
+.food-item:last-child{ border-bottom:none; }
+.food-item span:last-child{ font-family:'IBM Plex Mono', monospace; color:var(--phosphor-dim); }
+
+.badge-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px; }
+.badge-tile{ border:1px solid var(--line-dark); border-radius:4px; padding:12px; text-align:center; font-size:0.78rem; }
+.badge-tile.locked{ opacity:0.4; }
+.badge-tile .bicon{ font-size:1.3rem; margin-bottom:6px; }
+
+.toast{
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0; pointer-events:none;
+  background:var(--film); color:var(--bone); padding:12px 20px; border-radius:30px; font-size:0.84rem;
+  font-family:'IBM Plex Mono', monospace; z-index:300; transition:all .25s ease; border:1px solid var(--phosphor-dim);
+}
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0); pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="dot"></span> BANK TULANG</div>
+    <div class="navlinks">
+      <a href="#tracking">Tracking</a>
+      <a href="#edukasi">Edukasi</a>
+      <a href="#challenge">Challenge</a>
+    </div>
+    <a href="#tracking" class="nav-cta">Mulai Quiz</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Skrining Risiko Osteoporosis Dini</span>
+      <h1>Tulangmu nggak nunggu<br>kamu tua buat <em>rapuh</em>.</h1>
+      <p class="lede">Platform tracking &amp; edukasi kesehatan tulang untuk mahasiswa — kuis risiko 15 menit, pelacak kalsium harian, dan tantangan komunitas kampus. Dibangun dari bukti riset, bukan tebak-tebakan.</p>
+      <div class="hero-actions">
+        <a href="#tracking" class="btn-primary">Cek Skor Risikomu →</a>
+        <a href="#challenge" class="btn-ghost">Lihat #MenabungTulang</a>
+      </div>
+    </div>
+    <div class="scan-frame">
+      <svg viewBox="0 0 320 430" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cortical" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#E2D4BA"/>
+            <stop offset="100%" stop-color="#C8B491"/>
+          </linearGradient>
+          <linearGradient id="cancellous" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#C4A87A"/>
+            <stop offset="100%" stop-color="#A8855A"/>
+          </linearGradient>
+          <clipPath id="femurClip">
+            <path d="M130,24 Q116,24 116,44 L116,150 C113,162 106,172 102,186 C97,202 104,218 126,218 C139,220 148,213 155,206 Q160,201 160,201 Q160,201 165,206 C172,213 181,220 194,218 C216,218 223,202 218,186 C214,172 207,162 204,150 L204,44 Q204,24 190,24 Z"/>
+          </clipPath>
+          <clipPath id="tibiaClip">
+            <path d="M104,242 L104,250 C104,256 107,260 113,262 L128,262 L128,356 C125,368 118,378 115,392 C110,408 119,422 138,422 L182,422 C201,422 210,408 205,392 C202,378 195,368 192,356 L192,262 L207,262 C213,260 216,256 216,250 L216,242 C216,236 208,232 160,232 C112,232 104,236 104,242 Z"/>
+          </clipPath>
+        </defs>
+
+        <!-- ======== FEMUR (top bone) ======== -->
+        <!-- cortical shell -->
+        <path d="M130,24 Q116,24 116,44 L116,150 C113,162 106,172 102,186 C97,202 104,218 126,218 C139,220 148,213 155,206 Q160,201 160,201 Q160,201 165,206 C172,213 181,220 194,218 C216,218 223,202 218,186 C214,172 207,162 204,150 L204,44 Q204,24 190,24 Z"
+          fill="url(#cortical)" stroke="#B8A070" stroke-width="1.5"/>
+        <!-- cancellous fill -->
+        <path d="M130,24 Q116,24 116,44 L116,150 C113,162 106,172 102,186 C97,202 104,218 126,218 C139,220 148,213 155,206 Q160,201 160,201 Q160,201 165,206 C172,213 181,220 194,218 C216,218 223,202 218,186 C214,172 207,162 204,150 L204,44 Q204,24 190,24 Z"
+          fill="url(#cancellous)" clip-path="url(#femurClip)"/>
+
+        <!-- FEMUR PORES — large irregular cavities (osteoporotic) -->
+        <g clip-path="url(#femurClip)" fill="#6B4422" opacity="0.82">
+          <!-- shaft upper -->
+          <ellipse cx="148" cy="50" rx="11" ry="8" transform="rotate(-10,148,50)"/>
+          <ellipse cx="170" cy="46" rx="8" ry="10" transform="rotate(12,170,46)"/>
+          <ellipse cx="138" cy="68" rx="13" ry="9" transform="rotate(-8,138,68)"/>
+          <ellipse cx="164" cy="64" rx="9" ry="12" transform="rotate(15,164,64)"/>
+          <ellipse cx="150" cy="86" rx="11" ry="8" transform="rotate(-5,150,86)"/>
+          <ellipse cx="174" cy="82" rx="8" ry="10" transform="rotate(20,174,82)"/>
+          <ellipse cx="136" cy="100" rx="10" ry="8" transform="rotate(-12,136,100)"/>
+          <ellipse cx="162" cy="98" rx="12" ry="9" transform="rotate(8,162,98)"/>
+          <ellipse cx="148" cy="116" rx="10" ry="7" transform="rotate(-15,148,116)"/>
+          <ellipse cx="172" cy="114" rx="8" ry="11" transform="rotate(18,172,114)"/>
+          <!-- shaft lower -->
+          <ellipse cx="140" cy="134" rx="11" ry="8" transform="rotate(-6,140,134)"/>
+          <ellipse cx="164" cy="130" rx="9" ry="10" transform="rotate(14,164,130)"/>
+          <ellipse cx="150" cy="150" rx="12" ry="8" transform="rotate(-10,150,150)"/>
+          <ellipse cx="174" cy="148" rx="8" ry="10" transform="rotate(10,174,148)"/>
+          <!-- condyle left -->
+          <ellipse cx="122" cy="170" rx="9" ry="12" transform="rotate(-8,122,170)"/>
+          <ellipse cx="136" cy="184" rx="12" ry="9" transform="rotate(12,136,184)"/>
+          <ellipse cx="120" cy="200" rx="10" ry="8" transform="rotate(-5,120,200)"/>
+          <ellipse cx="138" cy="204" rx="9" ry="7" transform="rotate(15,138,204)"/>
+          <!-- condyle right -->
+          <ellipse cx="198" cy="170" rx="9" ry="12" transform="rotate(8,198,170)"/>
+          <ellipse cx="184" cy="184" rx="12" ry="9" transform="rotate(-12,184,184)"/>
+          <ellipse cx="200" cy="200" rx="10" ry="8" transform="rotate(5,200,200)"/>
+          <ellipse cx="182" cy="204" rx="9" ry="7" transform="rotate(-15,182,204)"/>
+          <!-- condyle centre -->
+          <ellipse cx="155" cy="168" rx="8" ry="10" transform="rotate(-10,155,168)"/>
+          <ellipse cx="166" cy="178" rx="9" ry="8" transform="rotate(8,166,178)"/>
+        </g>
+        <!-- femur trabeculae struts -->
+        <g clip-path="url(#femurClip)" stroke="#D8BF98" stroke-width="1.1" fill="none" opacity="0.55">
+          <line x1="122" y1="40" x2="140" y2="58"/>
+          <line x1="194" y1="38" x2="178" y2="56"/>
+          <line x1="120" y1="90" x2="138" y2="104"/>
+          <line x1="198" y1="88" x2="180" y2="102"/>
+          <line x1="120" y1="138" x2="138" y2="150"/>
+          <line x1="198" y1="136" x2="180" y2="148"/>
+          <line x1="108" y1="175" x2="128" y2="185"/>
+          <line x1="212" y1="173" x2="192" y2="183"/>
+          <line x1="108" y1="205" x2="125" y2="212"/>
+          <line x1="212" y1="203" x2="195" y2="210"/>
+        </g>
+        <!-- cortical highlight -->
+        <path d="M130,24 Q116,24 116,44 L116,150 C113,162 106,172 102,186 C97,202 104,218 126,218 C139,220 148,213 155,206 Q160,201 160,201 Q160,201 165,206 C172,213 181,220 194,218 C216,218 223,202 218,186 C214,172 207,162 204,150 L204,44 Q204,24 190,24 Z"
+          fill="none" stroke="#EDE0C4" stroke-width="2.5" opacity="0.45"/>
+        <path d="M130,24 Q116,24 116,44 L116,150 C113,162 106,172 102,186 C97,202 104,218 126,218 C139,220 148,213 155,206 Q160,201 160,201 Q160,201 165,206 C172,213 181,220 194,218 C216,218 223,202 218,186 C214,172 207,162 204,150 L204,44 Q204,24 190,24 Z"
+          fill="none" stroke="#5FB4E0" stroke-width="0.8" opacity="0.45"/>
+
+        <!-- joint space gap -->
+        <rect x="95" y="220" width="130" height="10" fill="#0B1016"/>
+
+        <!-- ======== TIBIA (bottom bone) ======== -->
+        <!-- cortical shell -->
+        <path d="M104,242 L104,250 C104,256 107,260 113,262 L128,262 L128,356 C125,368 118,378 115,392 C110,408 119,422 138,422 L182,422 C201,422 210,408 205,392 C202,378 195,368 192,356 L192,262 L207,262 C213,260 216,256 216,250 L216,242 C216,236 208,232 160,232 C112,232 104,236 104,242 Z"
+          fill="url(#cortical)" stroke="#B8A070" stroke-width="1.5"/>
+        <!-- cancellous fill -->
+        <path d="M104,242 L104,250 C104,256 107,260 113,262 L128,262 L128,356 C125,368 118,378 115,392 C110,408 119,422 138,422 L182,422 C201,422 210,408 205,392 C202,378 195,368 192,356 L192,262 L207,262 C213,260 216,256 216,250 L216,242 C216,236 208,232 160,232 C112,232 104,236 104,242 Z"
+          fill="url(#cancellous)" clip-path="url(#tibiaClip)"/>
+
+        <!-- TIBIA PORES -->
+        <g clip-path="url(#tibiaClip)" fill="#6B4422" opacity="0.82">
+          <!-- plateau wide area -->
+          <ellipse cx="128" cy="240" rx="10" ry="7" transform="rotate(-8,128,240)"/>
+          <ellipse cx="148" cy="238" rx="12" ry="8" transform="rotate(10,148,238)"/>
+          <ellipse cx="170" cy="240" rx="11" ry="7" transform="rotate(-12,170,240)"/>
+          <ellipse cx="190" cy="242" rx="9" ry="8" transform="rotate(8,190,242)"/>
+          <ellipse cx="138" cy="254" rx="10" ry="8" transform="rotate(-6,138,254)"/>
+          <ellipse cx="162" cy="252" rx="11" ry="9" transform="rotate(14,162,252)"/>
+          <ellipse cx="183" cy="256" rx="8" ry="10" transform="rotate(-10,183,256)"/>
+          <!-- shaft -->
+          <ellipse cx="144" cy="278" rx="10" ry="8" transform="rotate(-8,144,278)"/>
+          <ellipse cx="164" cy="274" rx="9" ry="11" transform="rotate(12,164,274)"/>
+          <ellipse cx="148" cy="296" rx="11" ry="8" transform="rotate(-5,148,296)"/>
+          <ellipse cx="168" cy="292" rx="9" ry="10" transform="rotate(16,168,292)"/>
+          <ellipse cx="146" cy="314" rx="10" ry="7" transform="rotate(-10,146,314)"/>
+          <ellipse cx="166" cy="312" rx="8" ry="10" transform="rotate(8,166,312)"/>
+          <ellipse cx="148" cy="332" rx="11" ry="8" transform="rotate(-14,148,332)"/>
+          <ellipse cx="168" cy="330" rx="9" ry="9" transform="rotate(12,168,330)"/>
+          <ellipse cx="148" cy="350" rx="10" ry="7" transform="rotate(-6,148,350)"/>
+          <ellipse cx="168" cy="348" rx="9" ry="10" transform="rotate(10,168,348)"/>
+          <!-- base flare -->
+          <ellipse cx="136" cy="370" rx="10" ry="8" transform="rotate(-10,136,370)"/>
+          <ellipse cx="155" cy="368" rx="12" ry="9" transform="rotate(8,155,368)"/>
+          <ellipse cx="176" cy="372" rx="10" ry="8" transform="rotate(-8,176,372)"/>
+          <ellipse cx="140" cy="390" rx="11" ry="9" transform="rotate(-5,140,390)"/>
+          <ellipse cx="162" cy="388" rx="12" ry="8" transform="rotate(12,162,388)"/>
+          <ellipse cx="180" cy="392" rx="10" ry="9" transform="rotate(-10,180,392)"/>
+          <ellipse cx="148" cy="408" rx="10" ry="8" transform="rotate(6,148,408)"/>
+          <ellipse cx="170" cy="406" rx="11" ry="8" transform="rotate(-8,170,406)"/>
+        </g>
+        <!-- tibia trabeculae struts -->
+        <g clip-path="url(#tibiaClip)" stroke="#D8BF98" stroke-width="1.1" fill="none" opacity="0.55">
+          <line x1="112" y1="238" x2="128" y2="250"/>
+          <line x1="208" y1="238" x2="192" y2="250"/>
+          <line x1="132" y1="270" x2="146" y2="282"/>
+          <line x1="188" y1="270" x2="174" y2="282"/>
+          <line x1="132" y1="318" x2="146" y2="330"/>
+          <line x1="188" y1="316" x2="174" y2="328"/>
+          <line x1="124" y1="365" x2="138" y2="378"/>
+          <line x1="196" y1="363" x2="182" y2="376"/>
+          <line x1="128" y1="400" x2="142" y2="412"/>
+          <line x1="192" y1="398" x2="178" y2="410"/>
+        </g>
+        <!-- tibia highlight + glow -->
+        <path d="M104,242 L104,250 C104,256 107,260 113,262 L128,262 L128,356 C125,368 118,378 115,392 C110,408 119,422 138,422 L182,422 C201,422 210,408 205,392 C202,378 195,368 192,356 L192,262 L207,262 C213,260 216,256 216,250 L216,242 C216,236 208,232 160,232 C112,232 104,236 104,242 Z"
+          fill="none" stroke="#EDE0C4" stroke-width="2.5" opacity="0.45"/>
+        <path d="M104,242 L104,250 C104,256 107,260 113,262 L128,262 L128,356 C125,368 118,378 115,392 C110,408 119,422 138,422 L182,422 C201,422 210,408 205,392 C202,378 195,368 192,356 L192,262 L207,262 C213,260 216,256 216,250 L216,242 C216,236 208,232 160,232 C112,232 104,236 104,242 Z"
+          fill="none" stroke="#5FB4E0" stroke-width="0.8" opacity="0.45"/>
+      </svg>
+      <div class="scanline"></div>
+      <div class="scan-readout">
+        <span>BMD SCAN // SAMPLE</span>
+        <span>T-SCORE: PENDING</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="statstrip">
+  <div class="wrap">
+    <div class="stat"><div class="num">15</div><div class="lbl">item pre-test tervalidasi</div></div>
+    <div class="stat"><div class="num">8</div><div class="lbl">komponen platform</div></div>
+    <div class="stat"><div class="num">&lt;60s</div><div class="lbl">durasi video edukasi</div></div>
+    <div class="stat"><div class="num">20an</div><div class="lbl">target usia mahasiswa</div></div>
+  </div>
+</div>
+
+<!-- TRACKING & ASSESSMENT -->
+<section class="section" id="tracking">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">Fase 01</span>
+      <h2>Tracking &amp; Assessment</h2>
+      <p>Empat komponen yang membentuk gambaran personal risiko tulangmu — diperbarui setiap hari, bukan sekali tes lalu lupa.</p>
+    </div>
+
+    <div class="phase-label">Komponen 1–4</div>
+    <div class="card-grid">
+      <div class="card" data-component="quiz">
+        <div class="idx">01 / ASESMEN</div>
+        <h3>Bone Health Quiz</h3>
+        <p>Asesmen awal 15 item — pengetahuan baseline, perceived susceptibility, dan persepsi risiko personal.</p>
+        <div class="method">Elaboration · Risk Perception</div>
+        <div class="tap">Coba quiz</div>
+      </div>
+      <div class="card" data-component="score">
+        <div class="idx">02 / SKOR</div>
+        <h3>Bone Health Score</h3>
+        <p>Skor risiko personal yang dihitung dari data tracker harian dan diperbarui otomatis tiap hari.</p>
+        <div class="method">Tailored Information</div>
+        <div class="tap">Lihat skor</div>
+      </div>
+      <div class="card" data-component="calcium">
+        <div class="idx">03 / NUTRISI</div>
+        <h3>Calcium Tracker</h3>
+        <p>Food log harian dengan database makanan Indonesia — lihat estimasi asupan kalsiummu real-time.</p>
+        <div class="method">Self-Monitoring · Goal Setting</div>
+        <div class="tap">Log makanan</div>
+      </div>
+      <div class="card" data-component="activity">
+        <div class="idx">04 / AKTIVITAS</div>
+        <h3>Activity Log</h3>
+        <p>Pelacak latihan weight-bearing harian — feedback instan dan streak counter buat jaga konsistensi.</p>
+        <div class="method">Self-Efficacy · Visible Progress</div>
+        <div class="tap">Log aktivitas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUKASI & ENGAGEMENT -->
+<section class="section engage" id="edukasi">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">Fase 02</span>
+      <h2>Edukasi &amp; Engagement</h2>
+      <p>Pengetahuan aja nggak cukup — empat komponen ini dirancang supaya kebiasaan sehat tulang benar-benar nempel.</p>
+    </div>
+
+    <div class="phase-label" style="color:var(--bone-dim);">Komponen 5–6</div>
+    <div class="engage-grid" style="margin-bottom:56px;">
+      <div class="engage-clickable" data-component="hub">
+        <h3 style="font-size:1.05rem; margin-bottom:10px;">05 · Educational Hub <span style="color:var(--phosphor); font-size:0.75rem; font-family:'IBM Plex Mono',monospace;">→</span></h3>
+        <p style="color:var(--bone-dim); font-size:0.92rem;">Video pendek di bawah 60 detik, infografis interaktif, dan artikel berbasis bukti tentang PBM, kalsium, dan latihan weight-bearing — diformat sesuai kebiasaan konsumsi konten mahasiswa.</p>
+      </div>
+      <div class="engage-clickable" data-component="weekly">
+        <h3 style="font-size:1.05rem; margin-bottom:10px;">06 · Target Mingguan <span style="color:var(--phosphor); font-size:0.75rem; font-family:'IBM Plex Mono',monospace;">→</span></h3>
+        <p style="color:var(--bone-dim); font-size:0.92rem;">Goal setting spesifik untuk asupan kalsium dan frekuensi latihan, lengkap dengan reminder otomatis — target proksimal terbukti lebih efektif dari tujuan umum.</p>
+      </div>
+    </div>
+
+    <div class="phase-label" style="color:var(--bone-dim);">Komponen 7 · Gamifikasi</div>
+    <div class="engage-clickable" data-component="badges" style="border:1px solid var(--line); border-radius:4px; padding:22px 24px;">
+      <h3 style="font-size:1.15rem; margin-bottom:8px;">Bone Coins &amp; Badges <span style="color:var(--phosphor); font-size:0.75rem; font-family:'IBM Plex Mono',monospace;">→</span></h3>
+      <p style="color:var(--bone-dim); font-size:0.92rem; margin-bottom:6px;">Poin per aktivitas tercatat, lencana milestone — dorongan motivasi intrinsik lewat pencapaian, bukan paksaan.</p>
+      <div class="badge-row">
+        <div class="badge-pill"><span class="ico"></span> 7 Hari Beruntun</div>
+        <div class="badge-pill"><span class="ico"></span> Kalsium Tercapai</div>
+        <div class="badge-pill"><span class="ico"></span> 5K Weight-Bearing</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section engage" id="challenge" style="padding-top:0; border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="phase-label" style="color:var(--bone-dim); margin-top:64px;">Komponen 8 · Gamifikasi</div>
+    <div class="engage-grid">
+      <div>
+        <h3 class="engage-clickable" data-component="join" style="font-size:1.3rem; margin-bottom:8px;">#MenabungTulang Challenge <span style="color:var(--phosphor); font-size:0.75rem; font-family:'IBM Plex Mono',monospace;">→</span></h3>
+        <p style="color:var(--bone-dim); font-size:0.95rem; max-width:42ch;">Lari rutin + asupan kalsium tercatat dikonversi jadi poin global. Social wall &amp; leaderboard kampus bikin kebiasaan sehat jadi norma sosial, bukan beban sendirian.</p>
+        <button class="mbtn" id="sectionJoinBtn" style="margin-top:18px;">Gabung Challenge</button>
+      </div>
+      <div>
+        <div class="leaderboard">
+          <div class="lb-row head">
+            <span>#</span><span>Peserta</span><span style="text-align:right;">Poin</span><span></span>
+          </div>
+          <div class="lb-row">
+            <span class="lb-rank">01</span>
+            <span class="lb-name">Ariel D. <span>Teknik Industri</span></span>
+            <span class="lb-pts">2,140</span>
+            <span class="lb-badge">streak 18</span>
+          </div>
+          <div class="lb-row">
+            <span class="lb-rank">02</span>
+            <span class="lb-name">Naya S. <span>Informatika</span></span>
+            <span class="lb-pts">1,985</span>
+            <span class="lb-badge">streak 14</span>
+          </div>
+          <div class="lb-row">
+            <span class="lb-rank">03</span>
+            <span class="lb-name">Bagas R. <span>Kedokteran</span></span>
+            <span class="lb-pts">1,820</span>
+            <span class="lb-badge">streak 12</span>
+          </div>
+          <div class="lb-row" id="lb-you-row">
+            <span class="lb-rank">04</span>
+            <span class="lb-name">Kamu <span>—</span></span>
+            <span class="lb-pts" id="lb-you-pts">—</span>
+            <span class="lb-badge" id="lb-you-badge" style="opacity:0.5;">gabung dulu</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="flogo">BANK TULANG</div>
+      <p class="fnote" style="margin-top:8px;">Platform edukasi &amp; tracking kesehatan tulang berbasis bukti, dirancang untuk mahasiswa 20-an.</p>
+    </div>
+    <p class="cite">Komponen &amp; rasional intervensi disusun dari kerangka health-belief &amp; self-monitoring (OKAT, Locke &amp; Latham, Romeo et al., Johnson et al.)</p>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div>
+        <span class="idx" id="modalIdx">COMPONENT</span>
+        <h3 id="modalTitle">Title</h3>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Tutup">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ---------- shared state ----------
+const state = {
+  quizScore: null,
+  calciumLogged: 0,
+  calciumTarget: 1000,
+  activityKm: 0,
+  activityTarget: 15,
+  joined: false,
+  challengePts: 0,
+  weeklyCalGoal: 1000,
+  weeklyExGoal: 4,
+  badgesUnlocked: { streak7:false, calciumHit:false, fiveK:false }
+};
+
+const FOOD_DB = {
+  "Susu & Olahan Susu": [
+    { name:"Susu UHT full cream 250ml", mg:300 }, { name:"Susu UHT low fat 250ml", mg:320 },
+    { name:"Susu kental manis 2 sdm", mg:65 }, { name:"Susu bubuk full cream 30g", mg:280 },
+    { name:"Susu kedelai 250ml", mg:80 }, { name:"Susu almond 250ml", mg:180 },
+    { name:"Susu oat 250ml", mg:120 }, { name:"Yogurt plain 150g", mg:240 },
+    { name:"Yogurt drink 1 botol (200ml)", mg:230 }, { name:"Keju cheddar 1 slice (20g)", mg:200 },
+    { name:"Keju mozzarella 30g", mg:220 }, { name:"Keju parmesan 1 sdm", mg:70 },
+    { name:"Es krim vanilla 1 scoop (60g)", mg:90 }, { name:"Susu cokelat kotak 200ml", mg:240 },
+    { name:"Mentega 1 sdm", mg:3 }, { name:"Whipped cream 2 sdm", mg:20 }
+  ],
+  "Tahu, Tempe & Olahan Kedelai": [
+    { name:"Tahu putih 100g", mg:350 }, { name:"Tahu sutra 100g", mg:130 },
+    { name:"Tempe 100g", mg:111 }, { name:"Tempe goreng 100g", mg:117 },
+    { name:"Oncom 100g", mg:96 }, { name:"Susu kedelai bubuk 1 sachet", mg:60 },
+    { name:"Tahu bulat goreng 5 buah", mg:175 }, { name:"Kembang tahu 50g", mg:90 }
+  ],
+  "Ikan & Seafood": [
+    { name:"Ikan teri kering 30g", mg:480 }, { name:"Ikan teri basah 30g", mg:213 },
+    { name:"Sarden kalengan 100g", mg:240 }, { name:"Ikan kembung goreng 100g", mg:60 },
+    { name:"Ikan lele goreng 100g", mg:53 }, { name:"Ikan tongkol 100g", mg:35 },
+    { name:"Ikan asin 30g", mg:165 }, { name:"Udang rebus 100g", mg:120 },
+    { name:"Cumi rebus 100g", mg:32 }, { name:"Kepiting 100g", mg:89 },
+    { name:"Rajungan rebus 100g", mg:80 }, { name:"Bandeng presto 100g", mg:200 },
+    { name:"Kerang rebus 100g", mg:130 }, { name:"Rebon kering 1 sdm", mg:220 }
+  ],
+  "Daging, Unggas & Telur": [
+    { name:"Ayam goreng 100g", mg:11 }, { name:"Ayam panggang 100g", mg:14 },
+    { name:"Daging sapi 100g", mg:12 }, { name:"Bakso sapi 5 butir", mg:28 },
+    { name:"Sosis 1 buah", mg:30 }, { name:"Telur rebus 1 butir", mg:28 },
+    { name:"Telur dadar 1 porsi", mg:32 }, { name:"Telur puyuh 5 butir", mg:40 },
+    { name:"Hati ayam 100g", mg:9 }, { name:"Empal daging 100g", mg:15 }
+  ],
+  "Sayuran": [
+    { name:"Bayam rebus 100g", mg:99 }, { name:"Kangkung rebus 100g", mg:73 },
+    { name:"Daun singkong rebus 100g", mg:165 }, { name:"Daun pepaya rebus 100g", mg:180 },
+    { name:"Brokoli rebus 100g", mg:47 }, { name:"Sawi hijau rebus 100g", mg:102 },
+    { name:"Kacang panjang rebus 100g", mg:50 }, { name:"Daun kelor 100g", mg:185 },
+    { name:"Wortel rebus 100g", mg:33 }, { name:"Kol/kubis rebus 100g", mg:40 },
+    { name:"Terong rebus 100g", mg:9 }, { name:"Buncis rebus 100g", mg:37 },
+    { name:"Daun katuk 100g", mg:204 }, { name:"Genjer rebus 100g", mg:62 }
+  ],
+  "Kacang-kacangan & Biji": [
+    { name:"Kacang almond 30g", mg:75 }, { name:"Kacang merah rebus 100g", mg:28 },
+    { name:"Kacang tanah sangrai 30g", mg:25 }, { name:"Edamame rebus 100g", mg:63 },
+    { name:"Kacang hijau rebus 100g", mg:27 }, { name:"Wijen sangrai 1 sdm", mg:88 },
+    { name:"Chia seed 1 sdm", mg:76 }, { name:"Kacang kedelai rebus 100g", mg:102 },
+    { name:"Kuaci/biji bunga matahari 30g", mg:22 }, { name:"Selai kacang 1 sdm", mg:13 }
+  ],
+  "Buah": [
+    { name:"Jeruk 1 buah sedang", mg:52 }, { name:"Pisang ambon 1 buah", mg:8 },
+    { name:"Pepaya 1 potong (100g)", mg:24 }, { name:"Mangga 1 buah sedang", mg:18 },
+    { name:"Apel 1 buah sedang", mg:11 }, { name:"Jambu biji 1 buah", mg:18 },
+    { name:"Kurma 5 butir", mg:32 }, { name:"Kiwi 1 buah", mg:34 },
+    { name:"Buah naga 100g", mg:9 }, { name:"Alpukat 1/2 buah", mg:8 }
+  ],
+  "Karbohidrat & Roti": [
+    { name:"Nasi putih 100g", mg:3 }, { name:"Nasi merah 100g", mg:7 },
+    { name:"Roti gandum 2 lembar", mg:60 }, { name:"Roti tawar putih 2 lembar", mg:50 },
+    { name:"Oatmeal 1 mangkok (100g)", mg:54 }, { name:"Mi instan 1 bungkus", mg:20 },
+    { name:"Kentang rebus 100g", mg:12 }, { name:"Ubi jalar rebus 100g", mg:30 },
+    { name:"Jagung rebus 1 buah", mg:5 }, { name:"Singkong rebus 100g", mg:16 }
+  ],
+  "Camilan & Lainnya": [
+    { name:"Keripik tempe 30g", mg:33 }, { name:"Kerupuk udang 30g", mg:15 },
+    { name:"Martabak manis 1 potong", mg:45 }, { name:"Pisang goreng 2 buah", mg:14 },
+    { name:"Risoles 1 buah", mg:22 }, { name:"Biskuit gandum 3 keping", mg:18 },
+    { name:"Cokelat batang 1 bar (40g)", mg:60 }, { name:"Puding susu 1 cup", mg:110 },
+    { name:"Es teh manis 1 gelas", mg:2 }, { name:"Kopi susu 1 gelas", mg:90 }
+  ],
+  "Masakan Khas Indonesia": [
+    { name:"Gado-gado 1 porsi", mg:140 }, { name:"Pecel 1 porsi", mg:95 },
+    { name:"Sayur lodeh 1 mangkok", mg:85 }, { name:"Soto ayam 1 mangkok", mg:45 },
+    { name:"Rawon 1 mangkok", mg:30 }, { name:"Sayur asem 1 mangkok", mg:70 },
+    { name:"Capcay 1 porsi", mg:65 }, { name:"Tumis kangkung 1 porsi", mg:75 },
+    { name:"Opor ayam 1 porsi", mg:40 }, { name:"Pepes ikan 1 porsi", mg:80 }
+  ]
+};
+const FOODS = Object.entries(FOOD_DB).flatMap(([cat, items]) => items.map(f => ({...f, cat})));
+
+const overlay = document.getElementById('modalOverlay');
+const modalIdx = document.getElementById('modalIdx');
+const modalTitle = document.getElementById('modalTitle');
+const modalBody = document.getElementById('modalBody');
+const toast = document.getElementById('toast');
+
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=> toast.classList.remove('show'), 2200);
+}
+
+function openModal(idx, title, bodyHtml){
+  modalIdx.textContent = idx;
+  modalTitle.textContent = title;
+  modalBody.innerHTML = bodyHtml;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('modalClose').addEventListener('click', closeModal);
+overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeModal(); });
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
+
+// ---------- renderers ----------
+function renderQuiz(){
+  openModal('01 / ASESMEN', 'Bone Health Quiz', `
+    <p>3 dari 15 pertanyaan asesmen — jawab buat lihat simulasi skor.</p>
+    <form id="quizForm">
+      <div class="quiz-q">
+        <div class="qtext">1. Seberapa sering kamu olahraga weight-bearing (jalan cepat, lari, angkat beban) per minggu?</div>
+        <label class="quiz-opt"><input type="radio" name="q1" value="2"> 3x atau lebih</label>
+        <label class="quiz-opt"><input type="radio" name="q1" value="1"> 1–2x</label>
+        <label class="quiz-opt"><input type="radio" name="q1" value="0"> Hampir tidak pernah</label>
+      </div>
+      <div class="quiz-q">
+        <div class="qtext">2. Apakah kamu rutin minum susu / produk olahan susu?</div>
+        <label class="quiz-opt"><input type="radio" name="q2" value="2"> Hampir tiap hari</label>
+        <label class="quiz-opt"><input type="radio" name="q2" value="1"> Kadang-kadang</label>
+        <label class="quiz-opt"><input type="radio" name="q2" value="0"> Jarang/tidak pernah</label>
+      </div>
+      <div class="quiz-q">
+        <div class="qtext">3. Apakah ada riwayat osteoporosis/patah tulang di keluargamu?</div>
+        <label class="quiz-opt"><input type="radio" name="q3" value="0"> Ada</label>
+        <label class="quiz-opt"><input type="radio" name="q3" value="2"> Tidak ada</label>
+        <label class="quiz-opt"><input type="radio" name="q3" value="1"> Tidak tahu</label>
+      </div>
+      <button type="submit" class="mbtn">Lihat hasil simulasi</button>
+    </form>
+    <div id="quizResult"></div>
+  `);
+  document.getElementById('quizForm').addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    let total = 0, answered = 0;
+    for(const [,v] of fd.entries()){ total += parseInt(v); answered++; }
+    if(answered < 3){ showToast('Jawab dulu ketiga pertanyaannya ya'); return; }
+    const pct = Math.round((total/6)*100);
+    state.quizScore = pct;
+    const risk = pct >= 70 ? 'Rendah' : pct >= 40 ? 'Sedang' : 'Tinggi';
+    document.getElementById('quizResult').innerHTML = `
+      <div style="margin-top:16px; padding:14px; border:1px solid var(--line-dark); border-radius:4px;">
+        <div class="progress-label"><span>Skor simulasi</span><span>${pct}/100</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:${pct}%;"></div></div>
+        <p style="margin-top:10px; margin-bottom:0;">Estimasi tingkat risiko: <strong style="color:var(--ink);">${risk}</strong>. Skor lengkap (15 item) akan dipakai buat generate Bone Health Score harianmu.</p>
+      </div>`;
+    showToast('Hasil quiz tersimpan ✓');
+  });
+}
+
+function renderScore(){
+  const pct = state.quizScore ?? 58;
+  const risk = pct >= 70 ? 'Rendah' : pct >= 40 ? 'Sedang' : 'Tinggi';
+  openModal('02 / SKOR', 'Bone Health Score', `
+    <p>${state.quizScore===null ? 'Belum isi quiz — ini contoh tampilan dengan skor demo.' : 'Dihitung dari hasil quiz dan log harianmu.'}</p>
+    <div style="padding:16px; border:1px solid var(--line-dark); border-radius:4px;">
+      <div class="progress-label"><span>Bone Health Score</span><span>${pct}/100</span></div>
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%;"></div></div>
+      <p style="margin-top:12px; margin-bottom:0;">Kategori risiko: <strong style="color:var(--ink);">${risk}</strong></p>
+    </div>
+    <p style="margin-top:14px;">Skor ini diperbarui tiap hari berdasarkan Calcium Tracker dan Activity Log-mu — makin konsisten, makin akurat gambaran risikonya.</p>
+    <button class="mbtn secondary" id="goQuiz">Isi quiz dulu</button>
+  `);
+  const btn = document.getElementById('goQuiz');
+  if(btn) btn.addEventListener('click', renderQuiz);
+}
+
+function renderCalcium(){
+  openModal('03 / NUTRISI', 'Calcium Tracker', `
+    <p>Target harian: <strong>${state.calciumTarget} mg</strong>. Ketik nama makanan, pilih dari saran yang muncul.</p>
+    <div class="mform-row" style="position:relative;">
+      <label>Cari &amp; tambah makanan</label>
+      <input type="text" id="foodSearch" autocomplete="off" placeholder="contoh: tempe, susu, bayam...">
+      <div id="foodSuggest" class="food-list" style="display:none; position:absolute; top:100%; left:0; right:0; z-index:10; background:#fff; max-height:180px;"></div>
+    </div>
+    <div class="progress-label" style="margin-top:6px;"><span>Total hari ini</span><span id="calTotal">${state.calciumLogged} mg</span></div>
+    <div class="progress-track"><div class="progress-fill" id="calFill" style="width:${Math.min(100, state.calciumLogged/state.calciumTarget*100)}%;"></div></div>
+    <p style="font-size:0.78rem; margin-top:14px; margin-bottom:6px;">Log hari ini:</p>
+    <div class="food-list" id="foodLog"></div>
+  `);
+  renderFoodLog();
+  const searchInput = document.getElementById('foodSearch');
+  const suggestBox = document.getElementById('foodSuggest');
+
+  function addFood(f){
+    state.calciumLogged += f.mg;
+    if(!state.calciumLogItems) state.calciumLogItems = [];
+    state.calciumLogItems.push(f);
+    document.getElementById('calTotal').textContent = state.calciumLogged + ' mg';
+    document.getElementById('calFill').style.width = Math.min(100, state.calciumLogged/state.calciumTarget*100) + '%';
+    renderFoodLog();
+    searchInput.value = '';
+    suggestBox.style.display = 'none';
+    if(state.calciumLogged >= state.calciumTarget && !state.badgesUnlocked.calciumHit){
+      state.badgesUnlocked.calciumHit = true;
+      showToast('Target kalsium tercapai — badge terbuka! 🦴');
+    } else {
+      showToast(f.name + ' ditambahkan ke log');
+    }
+  }
+
+  searchInput.addEventListener('input', ()=>{
+    const q = searchInput.value.trim().toLowerCase();
+    if(!q){ suggestBox.style.display = 'none'; return; }
+    const matches = FOODS.filter(f => f.name.toLowerCase().includes(q)).slice(0, 6);
+    if(!matches.length){
+      suggestBox.innerHTML = `<div class="food-item" style="color:var(--ink-soft);"><span>Ga ketemu di database — coba kata kunci lain</span><span></span></div>`;
+      suggestBox.style.display = 'block';
+      return;
+    }
+    suggestBox.innerHTML = matches.map((f,i)=>`<div class="food-item" data-i="${i}" style="cursor:pointer;"><span>${f.name} <span style="color:var(--ink-soft); font-size:0.72rem;">· ${f.cat}</span></span><span>${f.mg}mg</span></div>`).join('');
+    suggestBox.style.display = 'block';
+    suggestBox.querySelectorAll('.food-item').forEach((el,i)=>{
+      el.addEventListener('click', ()=> addFood(matches[i]));
+    });
+  });
+  document.addEventListener('click', (e)=>{
+    if(e.target !== searchInput && !suggestBox.contains(e.target)) suggestBox.style.display = 'none';
+  });
+}
+function renderFoodLog(){
+  const el = document.getElementById('foodLog');
+  if(!el) return;
+  const items = state.calciumLogItems || [];
+  el.innerHTML = items.length ? items.map(i=>`<div class="food-item"><span>${i.name}</span><span>${i.mg}mg</span></div>`).join('') : `<div class="food-item" style="color:var(--ink-soft);"><span>Belum ada log hari ini</span><span></span></div>`;
+}
+
+function renderActivity(){
+  openModal('04 / AKTIVITAS', 'Activity Log', `
+    <p>Target mingguan: <strong>${state.activityTarget} km</strong> latihan weight-bearing (jalan cepat/lari).</p>
+    <div class="mform-row">
+      <label>Tambah jarak hari ini (km)</label>
+      <input type="number" id="kmInput" min="0" step="0.1" placeholder="contoh: 3.5">
+    </div>
+    <button class="mbtn" id="addKmBtn">+ Catat aktivitas</button>
+    <div class="progress-label" style="margin-top:18px;"><span>Progres minggu ini</span><span id="kmTotal">${state.activityKm} / ${state.activityTarget} km</span></div>
+    <div class="progress-track"><div class="progress-fill" id="kmFill" style="width:${Math.min(100, state.activityKm/state.activityTarget*100)}%;"></div></div>
+  `);
+  document.getElementById('addKmBtn').addEventListener('click', ()=>{
+    const v = parseFloat(document.getElementById('kmInput').value);
+    if(!v || v <= 0){ showToast('Masukin jarak dulu ya'); return; }
+    state.activityKm += v;
+    document.getElementById('kmTotal').textContent = state.activityKm.toFixed(1) + ' / ' + state.activityTarget + ' km';
+    document.getElementById('kmFill').style.width = Math.min(100, state.activityKm/state.activityTarget*100) + '%';
+    document.getElementById('kmInput').value = '';
+    if(state.activityKm >= 5 && !state.badgesUnlocked.fiveK){
+      state.badgesUnlocked.fiveK = true;
+      showToast('5K weight-bearing tercapai — badge terbuka! 🏃');
+    } else {
+      showToast(v + ' km dicatat');
+    }
+  });
+}
+
+function renderHub(){
+  openModal('05 / EDUKASI', 'Educational Hub', `
+    <p>Pilihan konten edukasi singkat — semua di bawah 60 detik baca/tonton.</p>
+    <div class="food-list" style="max-height:none;">
+      <div class="food-item"><span>🎥 Apa itu Peak Bone Mass?</span><span>0:48</span></div>
+      <div class="food-item"><span>📊 Infografis: Sumber kalsium non-dairy</span><span>0:35</span></div>
+      <div class="food-item"><span>🎥 Kenapa weight-bearing penting di usia 20-an</span><span>0:52</span></div>
+      <div class="food-item"><span>📄 Artikel: Vitamin D &amp; penyerapan kalsium</span><span>~2 min baca</span></div>
+    </div>
+    <button class="mbtn" style="margin-top:16px;" id="dummyOpen">Buka konten pertama</button>
+  `);
+  document.getElementById('dummyOpen').addEventListener('click', ()=> showToast('Demo — konten asli nanti link ke video/artikel'));
+}
+
+function renderWeekly(){
+  openModal('06 / TARGET', 'Target Mingguan', `
+    <p>Set target kalsium harian dan frekuensi latihanmu minggu ini.</p>
+    <div class="mform-row">
+      <label>Target kalsium harian (mg)</label>
+      <input type="number" id="calGoalInput" value="${state.weeklyCalGoal}" step="50">
+    </div>
+    <div class="mform-row">
+      <label>Target latihan (kali/minggu)</label>
+      <input type="number" id="exGoalInput" value="${state.weeklyExGoal}" step="1">
+    </div>
+    <button class="mbtn" id="saveGoalBtn">Simpan target</button>
+  `);
+  document.getElementById('saveGoalBtn').addEventListener('click', ()=>{
+    state.weeklyCalGoal = parseInt(document.getElementById('calGoalInput').value) || state.weeklyCalGoal;
+    state.weeklyExGoal = parseInt(document.getElementById('exGoalInput').value) || state.weeklyExGoal;
+    state.calciumTarget = state.weeklyCalGoal;
+    showToast('Target mingguan disimpan ✓');
+    closeModal();
+  });
+}
+
+function renderBadges(){
+  const b = state.badgesUnlocked;
+  openModal('07 / GAMIFIKASI', 'Bone Coins & Badges', `
+    <p>Badge terbuka otomatis dari aktivitas yang kamu log di Calcium Tracker dan Activity Log.</p>
+    <div class="badge-grid">
+      <div class="badge-tile ${b.streak7?'':'locked'}"><div class="bicon">🔥</div>7 Hari Beruntun</div>
+      <div class="badge-tile ${b.calciumHit?'':'locked'}"><div class="bicon">🥛</div>Kalsium Tercapai</div>
+      <div class="badge-tile ${b.fiveK?'':'locked'}"><div class="bicon">🏃</div>5K Weight-Bearing</div>
+      <div class="badge-tile ${state.joined?'':'locked'}"><div class="bicon">🦴</div>#MenabungTulang</div>
+    </div>
+  `);
+}
+
+function renderJoin(){
+  openModal('08 / CHALLENGE', '#MenabungTulang Challenge', `
+    <p>Gabung challenge buat masuk leaderboard global kampus. Poin dihitung dari km lari + target kalsium harian yang tercapai.</p>
+    ${state.joined ? `
+      <div style="padding:14px; border:1px solid var(--line-dark); border-radius:4px; margin-bottom:14px;">
+        <p style="margin-bottom:0;">Kamu sudah gabung — poin saat ini: <strong style="color:var(--ink);">${state.challengePts}</strong></p>
+      </div>
+      <button class="mbtn secondary" id="leaveBtn">Keluar Challenge</button>
+    ` : `<button class="mbtn" id="joinBtn">Gabung Challenge</button>`}
+  `);
+  const btn = document.getElementById('joinBtn');
+  if(btn) btn.addEventListener('click', ()=>{
+    state.joined = true;
+    state.challengePts = 120;
+    document.getElementById('lb-you-pts').textContent = state.challengePts;
+    document.getElementById('lb-you-badge').textContent = 'baru gabung';
+    document.getElementById('lb-you-badge').style.opacity = '1';
+    showToast('Selamat datang di #MenabungTulang! 🦴');
+    closeModal();
+  });
+  const leaveBtn = document.getElementById('leaveBtn');
+  if(leaveBtn) leaveBtn.addEventListener('click', ()=>{
+    state.joined = false;
+    state.challengePts = 0;
+    document.getElementById('lb-you-pts').textContent = '—';
+    document.getElementById('lb-you-badge').textContent = 'gabung dulu';
+    document.getElementById('lb-you-badge').style.opacity = '0.5';
+    showToast('Kamu keluar dari #MenabungTulang');
+    closeModal();
+  });
+}
+
+document.getElementById('sectionJoinBtn').addEventListener('click', renderJoin);
+function syncSectionBtn(){
+  document.getElementById('sectionJoinBtn').textContent = state.joined ? 'Keluar Challenge' : 'Gabung Challenge';
+}
+const _origCloseModal = closeModal;
+closeModal = function(){ _origCloseModal(); syncSectionBtn(); };
+
+// ---------- wire up clickable elements ----------
+document.querySelectorAll('[data-component]').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    const c = el.getAttribute('data-component');
+    ({
+      quiz: renderQuiz, score: renderScore, calcium: renderCalcium, activity: renderActivity,
+      hub: renderHub, weekly: renderWeekly, badges: renderBadges, join: renderJoin
+    })[c]();
+  });
+});
+</script>
+
+</body>
+</html>
