@@ -344,19 +344,336 @@ footer .flogo{ color:var(--bone); font-family:'Space Grotesk', sans-serif; font-
   font-family:'IBM Plex Mono', monospace; z-index:300; transition:all .25s ease; border:1px solid var(--phosphor-dim);
 }
 .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); pointer-events:auto; }
+
+/* ---------- AWARD SITE LAYER ---------- */
+body > nav,
+body > header.hero,
+body > .statstrip,
+body > section,
+body > footer{
+  display:none;
+}
+
+#awardApp{
+  display:block;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255,216,77,.16), transparent 30rem),
+    radial-gradient(circle at 85% 8%, rgba(108,200,255,.18), transparent 34rem),
+    linear-gradient(180deg,#100820 0%,#1b0d3a 46%,#090412 100%);
+  color:#fff8df;
+  overflow:hidden;
+}
+#awardApp *{ box-sizing:border-box; }
+.aw-wrap{ width:min(1180px, calc(100% - 40px)); margin:0 auto; }
+.aw-display{ font-family:'Space Grotesk', sans-serif; letter-spacing:0; }
+.aw-mono{ font-family:'IBM Plex Mono', monospace; }
+.aw-progress{
+  position:fixed; inset:0 0 auto 0; height:3px; z-index:120;
+  transform-origin:left center; transform:scaleX(0);
+  background:linear-gradient(90deg,#ffd84d,#6cc8ff,#ff8ed3,#6de06e);
+}
+.aw-nav{
+  position:sticky; top:0; z-index:100;
+  border-bottom:1px solid rgba(255,255,255,.16);
+  background:rgba(16,8,32,.76); backdrop-filter:blur(18px);
+}
+.aw-nav .aw-wrap{ height:72px; display:flex; align-items:center; justify-content:space-between; gap:22px; }
+.aw-brand{ display:flex; align-items:center; gap:12px; font-weight:800; color:#fff8df; }
+.aw-mark{
+  width:36px; height:36px; border-radius:50%; display:grid; place-items:center; color:#100820; font-weight:900;
+  background:conic-gradient(from 220deg,#ffd84d,#6cc8ff,#a47cff,#ff8ed3,#6de06e,#ffd84d);
+}
+.aw-links{ display:flex; align-items:center; gap:22px; color:#d9c9ff; font-size:.86rem; }
+.aw-links a{ color:inherit; text-decoration:none; }
+.aw-links a:hover{ color:#ffd84d; }
+.aw-btn{
+  border:1px solid transparent; border-radius:999px; min-height:44px; padding:0 18px;
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  font-weight:800; white-space:nowrap; transition:transform .18s ease, border-color .18s ease, background .18s ease;
+}
+.aw-btn.primary{ background:#ffd84d; color:#100820; }
+.aw-btn.secondary{ color:#fff8df; border-color:rgba(255,255,255,.28); background:rgba(255,255,255,.07); backdrop-filter:blur(10px); }
+.aw-btn:hover{ transform:translateY(-1px); }
+.aw-btn:active{ transform:translateY(1px) scale(.99); }
+.aw-hero{
+  min-height:calc(100dvh - 72px); position:relative; display:grid; align-items:center; padding:58px 0 42px;
+}
+.aw-hero::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255,255,255,.055) 1px, transparent 1px);
+  background-size:72px 72px; mask-image:linear-gradient(to bottom, black, transparent 82%);
+}
+.aw-hero-grid{ position:relative; display:grid; grid-template-columns:minmax(0,1fr) minmax(360px,.86fr); gap:56px; align-items:center; }
+.aw-eyebrow{
+  display:inline-flex; align-items:center; gap:10px; margin-bottom:20px;
+  color:#ffd84d; font-family:'IBM Plex Mono', monospace; font-size:.72rem; text-transform:uppercase; letter-spacing:.12em;
+}
+.aw-pulse{ width:10px; height:10px; border-radius:50%; background:#ffd84d; box-shadow:0 0 0 7px rgba(255,216,77,.12); }
+.aw-hero h1{
+  font-size:clamp(3.2rem,8vw,7.4rem); line-height:.86; letter-spacing:0; font-weight:800; max-width:9ch; margin:0 0 24px;
+}
+.aw-hero h1 span{ color:#ffd84d; }
+.aw-lede{ font-size:clamp(1rem,2vw,1.2rem); max-width:48ch; color:#efe3ff; margin:0 0 28px; }
+.aw-actions{ display:flex; gap:12px; flex-wrap:wrap; }
+.aw-metrics{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:42px;
+  border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.18); border-radius:8px; overflow:hidden; max-width:640px;
+}
+.aw-metric{ background:rgba(255,255,255,.055); padding:18px; }
+.aw-metric b{ display:block; font-size:1.45rem; line-height:1; font-family:'IBM Plex Mono', monospace; color:#fff8df; }
+.aw-metric span{ display:block; margin-top:7px; color:#d9c9ff; font-size:.8rem; }
+.aw-spine{
+  position:relative; border-radius:8px; overflow:hidden; min-height:620px;
+  border:1px solid rgba(255,255,255,.32); background:linear-gradient(180deg,rgba(255,255,255,.11),rgba(255,255,255,.03));
+  box-shadow:0 34px 100px rgba(9,3,27,.42);
+}
+.aw-spine img{ width:100%; height:620px; object-fit:cover; filter:saturate(1.24) contrast(1.04); }
+.aw-spine::after{
+  content:""; position:absolute; inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(16,8,32,0),rgba(16,8,32,.82)),
+    linear-gradient(90deg,rgba(255,216,77,.10),transparent 52%,rgba(255,142,211,.11)),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.08) 0 1px,transparent 1px 7px);
+  mix-blend-mode:screen;
+}
+.aw-spine::before{
+  content:""; position:absolute; left:-8%; right:-8%; top:-22%; height:34%;
+  z-index:2; pointer-events:none;
+  background:
+    linear-gradient(180deg,transparent 0%,rgba(255,216,77,.10) 32%,rgba(108,200,255,.34) 50%,rgba(255,216,77,.13) 68%,transparent 100%),
+    linear-gradient(90deg,transparent,rgba(255,255,255,.34),transparent);
+  filter:blur(.3px);
+  box-shadow:0 0 34px rgba(108,200,255,.28),0 0 70px rgba(255,216,77,.10);
+  animation:awScan 5.8s cubic-bezier(.55,0,.25,1) infinite;
+}
+@keyframes awScan{
+  0%{ transform:translateY(-12%); opacity:0; }
+  10%{ opacity:.86; }
+  48%{ opacity:.95; }
+  82%{ opacity:.72; }
+  100%{ transform:translateY(430%); opacity:0; }
+}
+.aw-strip{ padding:22px 0; border-top:1px solid rgba(255,255,255,.18); border-bottom:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.04); overflow:hidden; }
+.aw-ticker{ display:flex; width:max-content; white-space:nowrap; animation:awTicker 32s linear infinite; will-change:transform; }
+.aw-ticker-set{ display:flex; align-items:center; flex:0 0 auto; gap:28px; padding-right:28px; }
+.aw-ticker span{ font-family:'IBM Plex Mono', monospace; color:#ffeeb7; font-size:.82rem; letter-spacing:.08em; }
+@keyframes awTicker{ from{ transform:translate3d(0,0,0); } to{ transform:translate3d(-50%,0,0); } }
+.aw-section{ position:relative; padding:92px 0; border-top:1px solid rgba(255,255,255,.09); }
+.aw-kicker{ font-family:'IBM Plex Mono', monospace; color:#ffd84d; font-size:.72rem; text-transform:uppercase; letter-spacing:.14em; margin-bottom:14px; }
+.aw-title{ font-size:clamp(2.1rem,5vw,4.6rem); line-height:.94; letter-spacing:0; max-width:820px; margin:0 0 18px; }
+.aw-copy{ color:#d9c9ff; max-width:680px; font-size:1.02rem; }
+.aw-mission{ display:grid; grid-template-columns:.95fr 1.05fr; gap:44px; align-items:start; }
+.aw-sticky{ position:sticky; top:108px; }
+.aw-chapters{ display:grid; gap:12px; }
+.aw-chapter{ border:1px solid rgba(255,255,255,.18); border-radius:8px; padding:22px; background:rgba(255,255,255,.055); transition:transform .18s ease, border-color .18s ease, background .18s ease; }
+.aw-chapter:hover{ transform:translateX(4px); border-color:rgba(255,216,77,.55); background:rgba(255,255,255,.08); }
+.aw-chapter-head{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:12px; }
+.aw-chapter h3{ font-size:1.14rem; }
+.aw-chapter p{ color:#d9c9ff; font-size:.95rem; }
+.aw-signal{ width:38px; height:38px; border-radius:50%; display:grid; place-items:center; color:#100820; font-weight:900; font-family:'IBM Plex Mono', monospace; flex:0 0 auto; }
+.aw-signal.joy{ background:#ffd84d; }.aw-signal.sad{ background:#6cc8ff; }.aw-signal.anger{ background:#ff5a55; color:#fff; }.aw-signal.fear{ background:#a47cff; color:#fff; }.aw-signal.green{ background:#6de06e; }.aw-signal.memory{ background:#ff8ed3; }
+.aw-simulator{ display:grid; grid-template-columns:minmax(0,.9fr) minmax(360px,1.1fr); gap:28px; align-items:stretch; margin-top:44px; }
+.aw-room{ border:1px solid rgba(255,255,255,.32); border-radius:8px; background:rgba(255,255,255,.065); box-shadow:0 24px 80px rgba(0,0,0,.18); padding:26px; }
+.aw-room h3{ font-size:1.32rem; margin-bottom:8px; }
+.aw-room p{ color:#d9c9ff; font-size:.95rem; }
+.aw-slider-set{ display:grid; gap:24px; margin-top:28px; }
+.aw-range label{ display:flex; justify-content:space-between; gap:16px; color:#fff8df; font-weight:800; margin-bottom:10px; }
+.aw-range output{ font-family:'IBM Plex Mono', monospace; color:#ffd84d; }
+.aw-range input{ width:100%; accent-color:#ffd84d; }
+.aw-score-line{ display:grid; grid-template-columns:140px 1fr; gap:24px; align-items:center; margin-top:22px; }
+.aw-score-ring{ --ring:180deg; --ring-color:#ffd84d; width:140px; height:140px; border-radius:50%; background:conic-gradient(var(--ring-color) var(--ring), rgba(255,255,255,.12) 0); display:grid; place-items:center; }
+.aw-score-ring b{ width:104px; height:104px; border-radius:50%; display:grid; place-items:center; background:#1b0d3a; font-size:2.1rem; font-family:'IBM Plex Mono', monospace; }
+.aw-outcome strong{ font-size:1.5rem; display:block; margin-bottom:10px; }
+.aw-outcome span{ color:#d9c9ff; }
+.aw-bars{ display:grid; gap:10px; margin-top:28px; }
+.aw-bar{ display:grid; grid-template-columns:110px 1fr 56px; gap:12px; align-items:center; font-size:.82rem; color:#d9c9ff; }
+.aw-track{ height:8px; border-radius:999px; background:rgba(255,255,255,.12); overflow:hidden; }
+.aw-fill{ height:100%; width:0; border-radius:inherit; background:#ffd84d; transition:width .3s ease; }
+.aw-fill.blue{ background:#6cc8ff; }.aw-fill.green{ background:#6de06e; }
+.aw-component-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:42px; }
+.aw-module{ min-height:230px; border:1px solid rgba(255,255,255,.18); border-radius:8px; padding:20px; background:rgba(255,255,255,.055); display:flex; flex-direction:column; justify-content:space-between; transition:transform .18s ease, border-color .18s ease, background .18s ease; }
+.aw-module:hover{ transform:translateY(-4px); border-color:rgba(255,216,77,.5); background:rgba(255,255,255,.085); }
+.aw-module-top{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
+.aw-index{ font-family:'IBM Plex Mono', monospace; color:#d9c9ff; font-size:.72rem; }
+.aw-module h3{ font-size:1.08rem; line-height:1.12; margin-bottom:10px; }
+.aw-module p{ color:#d9c9ff; font-size:.88rem; }
+.aw-module button,.aw-module a{ align-self:flex-start; margin-top:18px; border:0; background:transparent; color:#ffd84d; font-weight:900; padding:0; }
+.aw-challenge{ background:linear-gradient(135deg,rgba(255,216,77,.12),transparent 32%),linear-gradient(90deg,rgba(108,200,255,.10),rgba(255,142,211,.12)); }
+.aw-challenge-grid{ display:grid; grid-template-columns:.88fr 1.12fr; gap:32px; align-items:start; }
+.aw-wall{ display:grid; gap:12px; }
+.aw-post{ border:1px solid rgba(255,255,255,.18); border-radius:8px; background:rgba(255,255,255,.07); padding:18px; }
+.aw-post-head{ display:flex; justify-content:space-between; gap:12px; margin-bottom:10px; }
+.aw-post small{ color:#d9c9ff; font-family:'IBM Plex Mono', monospace; }
+.aw-post p{ color:#f5efff; }
+.aw-composer{ margin-top:18px; display:grid; gap:10px; }
+.aw-composer textarea{ width:100%; min-height:118px; resize:vertical; border-radius:8px; border:1px solid rgba(255,255,255,.32); padding:14px; background:rgba(255,255,255,.08); color:#fff8df; }
+.aw-faq{ display:grid; gap:10px; max-width:850px; margin-top:40px; }
+.aw-faq-item{ border:1px solid rgba(255,255,255,.18); border-radius:8px; background:rgba(255,255,255,.055); overflow:hidden; }
+.aw-faq-q{ width:100%; display:flex; justify-content:space-between; gap:18px; align-items:center; text-align:left; border:0; background:transparent; color:#fff8df; padding:18px 20px; font-weight:900; }
+.aw-faq-a{ display:none; color:#d9c9ff; padding:0 20px 20px; }
+.aw-faq-item.open .aw-faq-a{ display:block; }
+.aw-footer{ border-top:1px solid rgba(255,255,255,.18); padding:34px 0; color:#d9c9ff; background:#090412; }
+.aw-footer .aw-wrap{ display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+.aw-footer b{ color:#fff8df; }
+.aw-footer a{ color:#ffd84d; text-decoration:none; font-weight:900; }
+.aw-footer a:hover{ text-decoration:underline; }
+@media(max-width:1000px){
+  .aw-hero-grid,.aw-mission,.aw-simulator,.aw-challenge-grid{ grid-template-columns:1fr; }
+  .aw-sticky{ position:static; }
+  .aw-component-grid{ grid-template-columns:repeat(2,1fr); }
+  .aw-spine,.aw-spine img{ min-height:520px; height:520px; }
+}
+@media(max-width:700px){
+  .aw-links{ display:none; }
+  .aw-wrap{ width:min(100% - 28px,1180px); }
+  .aw-section{ padding:68px 0; }
+  .aw-metrics,.aw-score-line,.aw-component-grid{ grid-template-columns:1fr; }
+  .aw-spine,.aw-spine img{ min-height:460px; height:460px; }
+  .aw-bar{ grid-template-columns:88px 1fr 44px; }
+}
+@media(prefers-reduced-motion:reduce){
+  #awardApp *{ animation-duration:.001ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; transition:none!important; }
+  .aw-spine::before{ top:42%; opacity:.55; transform:none; }
+}
 </style>
 </head>
 <body>
+
+<div id="awardApp">
+  <div class="aw-progress" id="awProgress"></div>
+
+  <nav class="aw-nav">
+    <div class="aw-wrap">
+      <a href="#" class="aw-brand" aria-label="Beranda Bank Tulang"><span class="aw-mark">B</span><span>BANK TULANG</span></a>
+      <div class="aw-links">
+        <a href="#aw-simulator">Simulasi</a>
+        <a href="#aw-modul">Modul</a>
+      </div>
+      <button class="aw-btn primary" data-component="quiz">Mulai Kuis</button>
+    </div>
+  </nav>
+
+  <header class="aw-hero">
+    <div class="aw-wrap aw-hero-grid">
+      <div>
+        <div class="aw-eyebrow"><span class="aw-pulse"></span>Edukasi kesehatan tulang bertema Inside Out</div>
+        <h1 class="aw-display">Pemantauan kesehatan tulang <span>sejak dini.</span></h1>
+        <p class="aw-lede">Bank Tulang dirancang sebagai modul edukasi dan pemantauan kesehatan tulang untuk mahasiswa berbasis kuis OKAT, pelacakan kalsium, dan aktivitas menumpu beban.</p>
+        <div class="aw-actions">
+          <button class="aw-btn primary" data-component="quiz">Cek Skor Tulang</button>
+          <a class="aw-btn secondary" href="#aw-simulator">Buka Simulasi</a>
+        </div>
+        <div class="aw-metrics" aria-label="Ringkasan Bank Tulang">
+          <div class="aw-metric"><b>12</b><span>item kuis adaptasi OKAT</span></div>
+          <div class="aw-metric"><b>8</b><span>modul intervensi</span></div>
+          <div class="aw-metric"><b>&lt;60s</b><span>konten mikro-edukasi</span></div>
+        </div>
+      </div>
+
+      <div class="aw-spine" aria-label="Visual tulang belakang keropos">
+        <img src="assets/porous-spine.png" alt="Visual tulang belakang biru yang rapuh dan keropos">
+      </div>
+    </div>
+  </header>
+
+  <div class="aw-strip" aria-hidden="true">
+    <div class="aw-ticker">
+      <div class="aw-ticker-set">
+        <span>MASSA TULANG PUNCAK</span><span>ASUPAN KALSIUM</span><span>LATIHAN MENUMPU BEBAN</span><span>SKOR OKAT</span><span>TANTANGAN KAMPUS</span><span>PELACAK KALSIUM</span><span>KEBIASAAN AKTIF</span><span>PENGUATAN PERILAKU</span><span>UMPAN BALIK SOSIAL</span><span>TARGET MINGGUAN</span><span>RISIKO OSTEOPOROSIS</span><span>EDUKASI 60 DETIK</span><span>PARTISIPASI KOMUNITAS</span><span>PROGRES MINGGUAN</span>
+      </div>
+      <div class="aw-ticker-set">
+        <span>MASSA TULANG PUNCAK</span><span>ASUPAN KALSIUM</span><span>LATIHAN MENUMPU BEBAN</span><span>SKOR OKAT</span><span>TANTANGAN KAMPUS</span><span>PELACAK KALSIUM</span><span>KEBIASAAN AKTIF</span><span>PENGUATAN PERILAKU</span><span>UMPAN BALIK SOSIAL</span><span>TARGET MINGGUAN</span><span>RISIKO OSTEOPOROSIS</span><span>EDUKASI 60 DETIK</span><span>PARTISIPASI KOMUNITAS</span><span>PROGRES MINGGUAN</span>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <section class="aw-section" id="aw-simulator">
+      <div class="aw-wrap">
+        <div class="aw-kicker">Simulasi edukatif</div>
+        <h2 class="aw-title aw-display">Simulasikan kesiapan kebiasaan sehat tulang.</h2>
+        <p class="aw-copy">Simulasi ini bersifat edukatif, bukan diagnosis medis. Parameter pengetahuan, kalsium, dan aktivitas digunakan untuk menggambarkan kesiapan perilaku harian.</p>
+        <div class="aw-simulator">
+          <div class="aw-room">
+            <h3>Parameter Simulasi</h3>
+            <p>Sesuaikan nilai pada setiap variabel untuk melihat perubahan indikator kesiapan.</p>
+            <div class="aw-slider-set">
+              <div class="aw-range">
+                <label for="awKnowledge">Jawaban OKAT benar <output id="awKnowledgeOut">7 / 12</output></label>
+                <input id="awKnowledge" type="range" min="0" max="12" value="7">
+              </div>
+              <div class="aw-range">
+                <label for="awCalcium">Kalsium tercatat hari ini <output id="awCalciumOut">720 mg</output></label>
+                <input id="awCalcium" type="range" min="0" max="1400" step="20" value="720">
+              </div>
+              <div class="aw-range">
+                <label for="awActivity">Sesi latihan menumpu beban <output id="awActivityOut">3 / minggu</output></label>
+                <input id="awActivity" type="range" min="0" max="7" value="3">
+              </div>
+            </div>
+            <div class="aw-actions" style="margin-top:28px">
+              <button class="aw-btn primary" id="awBoost" type="button">Naikkan Skenario</button>
+              <button class="aw-btn secondary" id="awReset" type="button">Atur ulang</button>
+            </div>
+          </div>
+
+          <div class="aw-room">
+            <h3>Indikator Kesiapan</h3>
+            <p>Panel ini menampilkan estimasi kesiapan berdasarkan parameter yang dipilih.</p>
+            <div class="aw-score-line">
+              <div class="aw-score-ring" id="awRing"><b id="awScore">58</b></div>
+              <div class="aw-outcome">
+                <strong id="awLabel">Kesiapan Sedang</strong>
+                <span id="awAdvice">Nilai dasar sudah cukup. Pencatatan kalsium dan tambahan satu sesi aktivitas dapat meningkatkan indikator kesiapan.</span>
+              </div>
+            </div>
+            <div class="aw-bars">
+              <div class="aw-bar"><span>Pengetahuan</span><div class="aw-track"><div class="aw-fill" id="awKnowledgeFill"></div></div><span id="awKnowledgePct">58%</span></div>
+              <div class="aw-bar"><span>Kalsium</span><div class="aw-track"><div class="aw-fill blue" id="awCalciumFill"></div></div><span id="awCalciumPct">72%</span></div>
+              <div class="aw-bar"><span>Aktivitas</span><div class="aw-track"><div class="aw-fill green" id="awActivityFill"></div></div><span id="awActivityPct">43%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="aw-section" id="aw-modul">
+      <div class="aw-wrap">
+        <div class="aw-kicker">Delapan modul</div>
+        <h2 class="aw-title aw-display">Delapan modul utama dalam rancangan intervensi.</h2>
+        <p class="aw-copy">Setiap modul dikaitkan dengan asesmen, pelacakan, edukasi, penetapan target, penguatan perilaku, atau umpan balik sosial.</p>
+        <div class="aw-component-grid">
+          <article class="aw-module"><div><div class="aw-module-top"><span class="aw-index">01</span><span class="aw-signal joy">?</span></div><h3>Kuis Kesehatan Tulang</h3><p>Asesmen 12 item adaptasi OKAT dengan interpretasi skor otomatis.</p></div><button data-component="quiz">Buka kuis</button></article>
+          <article class="aw-module"><div><div class="aw-module-top"><span class="aw-index">02</span><span class="aw-signal sad">%</span></div><h3>Skor Kesehatan Tulang</h3><p>Hasil kuis dikategorikan menjadi Kurang, Cukup, atau Baik sesuai tabel interpretasi.</p></div><button data-component="score">Lihat skor</button></article>
+          <article class="aw-module"><div><div class="aw-module-top"><span class="aw-index">03</span><span class="aw-signal green">+</span></div><h3>Pelacak Kalsium</h3><p>Pencatatan makanan harian dengan estimasi asupan kalsium berbasis database makanan.</p></div><button data-component="calcium">Catat makanan</button></article>
+          <article class="aw-module"><div><div class="aw-module-top"><span class="aw-index">04</span><span class="aw-signal anger">^</span></div><h3>Catatan Aktivitas</h3><p>Pencatatan latihan menumpu beban disertai progres mingguan dan umpan balik.</p></div><button data-component="activity">Catat aktivitas</button></article>
+          <article class="aw-module"><div><div class="aw-module-top"><span class="aw-index">05</span><span class="aw-signal fear">i</span></div><h3>Pusat Edukasi</h3><p>Materi edukasi singkat dalam bentuk video, infografis, dan artikel berbasis bukti.</p></div><button data-component="hub">Lihat edukasi</button></article>
+          <article class="aw-module"><div><div class="aw-module-top"><span class="aw-index">06</span><span class="aw-signal joy">✓</span></div><h3>Target Mingguan</h3><p>Penetapan target kalsium dan aktivitas fisik dengan progres yang dapat dipantau.</p></div><button data-component="weekly">Atur target</button></article>
+          <article class="aw-module"><div><div class="aw-module-top"><span class="aw-index">07</span><span class="aw-signal memory">*</span></div><h3>Koin Tulang &amp; Lencana</h3><p>Penguatan perilaku melalui poin, tonggak pencapaian, dan lencana.</p></div><button data-component="badges">Lihat lencana</button></article>
+          <article class="aw-module"><div><div class="aw-module-top"><span class="aw-index">08</span><span class="aw-signal sad">#</span></div><h3>#MenabungTulang</h3><p>Tantangan kampus untuk mendukung umpan balik sosial dan partisipasi komunitas.</p></div><button data-component="join">Gabung tantangan</button></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="aw-footer">
+    <div class="aw-wrap"><b>Bank Tulang</b><span>Instagram: <a href="https://www.instagram.com/project.banktulang/" target="_blank" rel="noopener">@project.banktulang</a></span></div>
+  </footer>
+</div>
 
 <nav>
   <div class="wrap">
     <div class="logo"><span class="dot"></span> BANK TULANG</div>
     <div class="navlinks">
-      <a href="#tracking">Tracking</a>
+      <a href="#tracking">Pelacakan</a>
       <a href="#edukasi">Edukasi</a>
-      <a href="#challenge">Challenge</a>
+      <a href="#challenge">Tantangan</a>
     </div>
-    <a href="#tracking" class="nav-cta">Mulai Quiz</a>
+    <a href="#tracking" class="nav-cta">Mulai Kuis</a>
   </div>
 </nav>
 
@@ -364,10 +681,10 @@ footer .flogo{ color:var(--bone); font-family:'Space Grotesk', sans-serif; font-
   <div class="wrap hero-grid">
     <div>
       <span class="eyebrow">Skrining Risiko Osteoporosis Dini</span>
-      <h1>Tulangmu nggak nunggu<br>kamu tua buat <em>rapuh</em>.</h1>
-      <p class="lede">Platform tracking &amp; edukasi kesehatan tulang untuk mahasiswa — quiz pengetahuan OKAT-adapted 12 item, pelacak kalsium harian, dan tantangan komunitas kampus. Dibangun dari bukti riset, bukan tebak-tebakan.</p>
+      <h1>Pemantauan kesehatan tulang<br>perlu dimulai <em>sejak dini</em>.</h1>
+      <p class="lede">Modul edukasi dan pelacakan kesehatan tulang untuk mahasiswa, mencakup kuis pengetahuan adaptasi OKAT 12 item, pelacak kalsium harian, dan tantangan komunitas kampus.</p>
       <div class="hero-actions">
-        <a href="#tracking" class="btn-primary">Cek Skor Risikomu →</a>
+        <a href="#tracking" class="btn-primary">Cek Skor Risikomu</a>
         <a href="#challenge" class="btn-ghost">Lihat #MenabungTulang</a>
       </div>
     </div>
@@ -521,8 +838,8 @@ footer .flogo{ color:var(--bone); font-family:'Space Grotesk', sans-serif; font-
       </svg>
       <div class="scanline"></div>
       <div class="scan-readout">
-        <span>BMD SCAN // SAMPLE</span>
-        <span>T-SCORE: PENDING</span>
+        <span>CONTOH PEMINDAIAN BMD</span>
+        <span>SKOR-T: MENUNGGU</span>
       </div>
     </div>
   </div>
@@ -530,8 +847,8 @@ footer .flogo{ color:var(--bone); font-family:'Space Grotesk', sans-serif; font-
 
 <div class="statstrip">
   <div class="wrap">
-    <div class="stat"><div class="num">12</div><div class="lbl">item OKAT-adapted</div></div>
-    <div class="stat"><div class="num">8</div><div class="lbl">komponen platform</div></div>
+    <div class="stat"><div class="num">12</div><div class="lbl">item adaptasi OKAT</div></div>
+    <div class="stat"><div class="num">8</div><div class="lbl">modul intervensi</div></div>
     <div class="stat"><div class="num">&lt;60s</div><div class="lbl">durasi video edukasi</div></div>
     <div class="stat"><div class="num">20an</div><div class="lbl">target usia mahasiswa</div></div>
   </div>
@@ -542,39 +859,39 @@ footer .flogo{ color:var(--bone); font-family:'Space Grotesk', sans-serif; font-
   <div class="wrap">
     <div class="section-head">
       <span class="section-tag">Fase 01</span>
-      <h2>Tracking &amp; Assessment</h2>
-      <p>Empat komponen yang membentuk gambaran personal risiko tulangmu — diperbarui setiap hari, bukan sekali tes lalu lupa.</p>
+      <h2>Pelacakan &amp; Asesmen</h2>
+      <p>Empat komponen yang membentuk gambaran personal risiko tulangmu - diperbarui setiap hari, bukan sekali tes lalu lupa.</p>
     </div>
 
-    <div class="phase-label">Komponen 1–4</div>
+    <div class="phase-label">Komponen 1-4</div>
     <div class="card-grid">
       <div class="card" data-component="quiz">
         <div class="card-top"><div class="idx">01 / ASESMEN</div><span class="emotion-icon joy" aria-hidden="true">?</span></div>
-        <h3>Bone Health Quiz</h3>
-        <p>Asesmen awal 12 item OKAT-adapted — pengetahuan baseline, perceived susceptibility, dan persepsi risiko personal.</p>
-        <div class="method">Elaboration · Risk Perception</div>
-        <div class="tap">Coba quiz</div>
+        <h3>Kuis Kesehatan Tulang</h3>
+        <p>Asesmen awal 12 item adaptasi OKAT - pengetahuan dasar, persepsi kerentanan, dan persepsi risiko personal.</p>
+        <div class="method">Elaborasi - Persepsi Risiko</div>
+        <div class="tap">Coba kuis</div>
       </div>
       <div class="card" data-component="score">
         <div class="card-top"><div class="idx">02 / SKOR</div><span class="emotion-icon sadness" aria-hidden="true">%</span></div>
-        <h3>Bone Health Score</h3>
-        <p>Skor pengetahuan tulang dari hasil quiz: Kurang, Cukup, atau Baik sesuai interpretasi OKAT.</p>
-        <div class="method">Tailored Information</div>
+        <h3>Skor Kesehatan Tulang</h3>
+        <p>Skor pengetahuan tulang dari hasil kuis: Kurang, Cukup, atau Baik sesuai interpretasi OKAT.</p>
+        <div class="method">Informasi Personal</div>
         <div class="tap">Lihat skor</div>
       </div>
       <div class="card" data-component="calcium">
         <div class="card-top"><div class="idx">03 / NUTRISI</div><span class="emotion-icon disgust" aria-hidden="true">+</span></div>
-        <h3>Calcium Tracker</h3>
-        <p>Food log harian dengan database makanan Indonesia — lihat estimasi asupan kalsiummu real-time.</p>
-        <div class="method">Self-Monitoring · Goal Setting</div>
-        <div class="tap">Log makanan</div>
+        <h3>Pelacak Kalsium</h3>
+        <p>Catatan makanan harian dengan database makanan Indonesia - lihat estimasi asupan kalsiummu secara langsung.</p>
+        <div class="method">Pemantauan Diri - Penetapan Target</div>
+        <div class="tap">Catat makanan</div>
       </div>
       <div class="card" data-component="activity">
         <div class="card-top"><div class="idx">04 / AKTIVITAS</div><span class="emotion-icon anger" aria-hidden="true">↗</span></div>
-        <h3>Activity Log</h3>
-        <p>Pelacak latihan weight-bearing harian — feedback instan dan streak counter buat jaga konsistensi.</p>
-        <div class="method">Self-Monitoring · Goal Setting</div>
-        <div class="tap">Log aktivitas</div>
+        <h3>Catatan Aktivitas</h3>
+        <p>Pelacak latihan menumpu beban harian - umpan balik instan dan penghitung rentetan buat jaga konsistensi.</p>
+        <div class="method">Pemantauan Diri - Penetapan Target</div>
+        <div class="tap">Catat aktivitas</div>
       </div>
     </div>
   </div>
@@ -585,30 +902,30 @@ footer .flogo{ color:var(--bone); font-family:'Space Grotesk', sans-serif; font-
   <div class="wrap">
     <div class="section-head">
       <span class="section-tag">Fase 02</span>
-      <h2>Edukasi &amp; Engagement</h2>
-      <p>Pengetahuan aja nggak cukup — empat komponen ini dirancang supaya kebiasaan sehat tulang benar-benar nempel.</p>
+      <h2>Edukasi &amp; Keterlibatan</h2>
+      <p>Pengetahuan perlu didukung oleh pemantauan dan penguatan perilaku agar kebiasaan sehat tulang dapat terbentuk secara berkelanjutan.</p>
     </div>
 
-    <div class="phase-label" style="color:var(--bone-dim);">Komponen 5–6</div>
+    <div class="phase-label" style="color:var(--bone-dim);">Komponen 5-6</div>
     <div class="engage-grid" style="margin-bottom:56px;">
       <div class="engage-clickable" data-component="hub">
-        <h3 style="font-size:1.05rem; margin-bottom:10px; display:flex; align-items:center; gap:10px;"><span class="emotion-icon fear" aria-hidden="true">i</span> 05 · Educational Hub <span style="color:var(--phosphor); font-size:0.75rem; font-family:'IBM Plex Mono',monospace;">→</span></h3>
-        <p style="color:var(--bone-dim); font-size:0.92rem;">Video pendek di bawah 60 detik, infografis interaktif, dan artikel berbasis bukti tentang PBM, kalsium, dan latihan weight-bearing — diformat sesuai kebiasaan konsumsi konten mahasiswa.</p>
+        <h3 style="font-size:1.05rem; margin-bottom:10px; display:flex; align-items:center; gap:10px;"><span class="emotion-icon fear" aria-hidden="true">i</span> 05 · Pusat Edukasi <span style="color:var(--phosphor); font-size:0.75rem; font-family:'IBM Plex Mono',monospace;">→</span></h3>
+        <p style="color:var(--bone-dim); font-size:0.92rem;">Video pendek di bawah 60 detik, infografis interaktif, dan artikel berbasis bukti tentang massa tulang puncak, kalsium, dan latihan menumpu beban - diformat sesuai kebiasaan konsumsi konten mahasiswa.</p>
       </div>
       <div class="engage-clickable" data-component="weekly">
         <h3 style="font-size:1.05rem; margin-bottom:10px; display:flex; align-items:center; gap:10px;"><span class="emotion-icon joy" aria-hidden="true">✓</span> 06 · Target Mingguan <span style="color:var(--phosphor); font-size:0.75rem; font-family:'IBM Plex Mono',monospace;">→</span></h3>
-        <p style="color:var(--bone-dim); font-size:0.92rem;">Goal setting spesifik untuk asupan kalsium dan frekuensi latihan, lengkap dengan reminder otomatis — target proksimal terbukti lebih efektif dari tujuan umum.</p>
+        <p style="color:var(--bone-dim); font-size:0.92rem;">Penetapan target spesifik untuk asupan kalsium dan frekuensi latihan, lengkap dengan pengingat otomatis - target proksimal terbukti lebih efektif dari tujuan umum.</p>
       </div>
     </div>
 
     <div class="phase-label" style="color:var(--bone-dim);">Komponen 7 · Gamifikasi</div>
     <div class="engage-clickable" data-component="badges" style="border:1px solid var(--line); border-radius:4px; padding:22px 24px;">
-      <h3 style="font-size:1.15rem; margin-bottom:8px; display:flex; align-items:center; gap:10px;"><span class="emotion-icon memory" aria-hidden="true">★</span> Bone Coins &amp; Badges <span style="color:var(--phosphor); font-size:0.75rem; font-family:'IBM Plex Mono',monospace;">→</span></h3>
-      <p style="color:var(--bone-dim); font-size:0.92rem; margin-bottom:6px;">Poin per aktivitas tercatat, lencana milestone — dorongan motivasi intrinsik lewat pencapaian, bukan paksaan.</p>
+      <h3 style="font-size:1.15rem; margin-bottom:8px; display:flex; align-items:center; gap:10px;"><span class="emotion-icon memory" aria-hidden="true">★</span> Koin Tulang &amp; Lencana <span style="color:var(--phosphor); font-size:0.75rem; font-family:'IBM Plex Mono',monospace;">→</span></h3>
+      <p style="color:var(--bone-dim); font-size:0.92rem; margin-bottom:6px;">Poin per aktivitas tercatat, lencana pencapaian - dorongan motivasi intrinsik lewat pencapaian, bukan paksaan.</p>
       <div class="badge-row">
         <div class="badge-pill"><span class="ico"></span> 7 Hari Beruntun</div>
         <div class="badge-pill"><span class="ico"></span> Kalsium Tercapai</div>
-        <div class="badge-pill"><span class="ico"></span> 5K Weight-Bearing</div>
+        <div class="badge-pill"><span class="ico"></span> 5K Menumpu Beban</div>
       </div>
     </div>
   </div>
@@ -619,9 +936,9 @@ footer .flogo{ color:var(--bone); font-family:'Space Grotesk', sans-serif; font-
     <div class="phase-label" style="color:var(--bone-dim); margin-top:64px;">Komponen 8 · Gamifikasi</div>
     <div class="engage-grid">
       <div>
-        <h3 class="engage-clickable" data-component="join" style="font-size:1.3rem; margin-bottom:8px; display:flex; align-items:center; gap:10px;"><span class="emotion-icon sadness" aria-hidden="true">#</span> #MenabungTulang Challenge <span style="color:var(--phosphor); font-size:0.75rem; font-family:'IBM Plex Mono',monospace;">→</span></h3>
-        <p style="color:var(--bone-dim); font-size:0.95rem; max-width:42ch;">Lari rutin + asupan kalsium tercatat dikonversi jadi poin global. Social wall &amp; leaderboard kampus bikin kebiasaan sehat jadi norma sosial, bukan beban sendirian.</p>
-        <button class="mbtn" id="sectionJoinBtn" style="margin-top:18px;">Gabung Challenge</button>
+        <h3 class="engage-clickable" data-component="join" style="font-size:1.3rem; margin-bottom:8px; display:flex; align-items:center; gap:10px;"><span class="emotion-icon sadness" aria-hidden="true">#</span> Tantangan #MenabungTulang <span style="color:var(--phosphor); font-size:0.75rem; font-family:'IBM Plex Mono',monospace;">→</span></h3>
+        <p style="color:var(--bone-dim); font-size:0.95rem; max-width:42ch;">Aktivitas fisik dan asupan kalsium yang tercatat dikonversi menjadi poin. Dinding sosial dan papan peringkat kampus mendukung pembentukan norma kelompok yang positif.</p>
+        <button class="mbtn" id="sectionJoinBtn" style="margin-top:18px;">Gabung Tantangan</button>
       </div>
       <div>
         <div class="leaderboard">
@@ -632,24 +949,24 @@ footer .flogo{ color:var(--bone); font-family:'Space Grotesk', sans-serif; font-
             <span class="lb-rank">01</span>
             <span class="lb-name">Ariel D. <span>Teknik Industri</span></span>
             <span class="lb-pts">2,140</span>
-            <span class="lb-badge">streak 18</span>
+            <span class="lb-badge">rentetan 18</span>
           </div>
           <div class="lb-row">
             <span class="lb-rank">02</span>
             <span class="lb-name">Naya S. <span>Informatika</span></span>
             <span class="lb-pts">1,985</span>
-            <span class="lb-badge">streak 14</span>
+            <span class="lb-badge">rentetan 14</span>
           </div>
           <div class="lb-row">
             <span class="lb-rank">03</span>
             <span class="lb-name">Bagas R. <span>Kedokteran</span></span>
             <span class="lb-pts">1,820</span>
-            <span class="lb-badge">streak 12</span>
+            <span class="lb-badge">rentetan 12</span>
           </div>
           <div class="lb-row" id="lb-you-row">
             <span class="lb-rank">04</span>
             <span class="lb-name">Kamu <span>—</span></span>
-            <span class="lb-pts" id="lb-you-pts">—</span>
+            <span class="lb-pts" id="lb-you-pts">-</span>
             <span class="lb-badge" id="lb-you-badge" style="opacity:0.5;">gabung dulu</span>
           </div>
         </div>
@@ -662,9 +979,9 @@ footer .flogo{ color:var(--bone); font-family:'Space Grotesk', sans-serif; font-
   <div class="wrap">
     <div>
       <div class="flogo">BANK TULANG</div>
-      <p class="fnote" style="margin-top:8px;">Platform edukasi &amp; tracking kesehatan tulang berbasis bukti, dirancang untuk mahasiswa 20-an.</p>
+      <p class="fnote" style="margin-top:8px;">Modul edukasi dan pelacakan kesehatan tulang berbasis bukti, dirancang untuk mahasiswa usia 20-an.</p>
     </div>
-    <p class="cite">Komponen &amp; rasional intervensi disusun dari kerangka health-belief &amp; self-monitoring (OKAT, Locke &amp; Latham, Romeo et al., Johnson et al.)</p>
+    <p class="cite">Komponen dan rasional intervensi disusun dari kerangka keyakinan kesehatan dan pemantauan diri (OKAT, Locke &amp; Latham, Romeo et al., Johnson et al.)</p>
   </div>
 </footer>
 
@@ -672,7 +989,7 @@ footer .flogo{ color:var(--bone); font-family:'Space Grotesk', sans-serif; font-
   <div class="modal-box">
     <div class="modal-head">
       <div>
-        <span class="idx" id="modalIdx">COMPONENT</span>
+        <span class="idx" id="modalIdx">KOMPONEN</span>
         <h3 id="modalTitle">Title</h3>
       </div>
       <button class="modal-close" id="modalClose" aria-label="Tutup">✕</button>
@@ -687,6 +1004,9 @@ footer .flogo{ color:var(--bone); font-family:'Space Grotesk', sans-serif; font-
 // ---------- shared state ----------
 const state = {
   quizScore: null,
+  quizRaw: null,
+  quizCategory: null,
+  quizInterpretation: null,
   calciumLogged: 0,
   calciumTarget: 1000,
   activityKm: 0,
@@ -697,6 +1017,37 @@ const state = {
   weeklyExGoal: 4,
   badgesUnlocked: { streak7:false, calciumHit:false, fiveK:false }
 };
+
+const QUIZ_ITEMS = [
+  { domain:"Pengetahuan Umum", text:"Osteoporosis meningkatkan risiko seseorang mengalami fraktur (patah tulang).", correct:"Benar" },
+  { domain:"Pengetahuan Umum", text:"Pada usia 80 tahun, sebagian besar perempuan telah mengalami osteoporosis.", correct:"Benar" },
+  { domain:"Pengetahuan Umum", text:"Mulai usia 50 tahun, sebagian besar perempuan berisiko mengalami setidaknya satu kali fraktur sepanjang sisa hidupnya.", correct:"Benar" },
+  { domain:"Faktor Risiko", text:"Memiliki massa tulang puncak yang lebih tinggi pada akhir masa kanak-kanak tidak memberikan perlindungan terhadap perkembangan osteoporosis di kemudian hari.", correct:"Salah" },
+  { domain:"Faktor Risiko", text:"Osteoporosis lebih sering terjadi pada laki-laki dibandingkan perempuan.", correct:"Salah" },
+  { domain:"Faktor Risiko", text:"Jatuh sama pentingnya dengan rendahnya kekuatan tulang dalam menyebabkan fraktur.", correct:"Benar" },
+  { domain:"Faktor Risiko", text:"Riwayat keluarga dengan osteoporosis secara signifikan meningkatkan kecenderungan seseorang mengalami osteoporosis.", correct:"Benar" },
+  { domain:"Pencegahan", text:"Semua jenis aktivitas fisik sama bermanfaatnya untuk mencegah osteoporosis.", correct:"Salah" },
+  { domain:"Pencegahan", text:"Kebutuhan kalsium harian yang memadai dapat terpenuhi hanya dari dua gelas susu per hari.", correct:"Salah" },
+  { domain:"Pencegahan", text:"Suplemen kalsium saja sudah cukup untuk mencegah kehilangan massa tulang.", correct:"Salah" },
+  { domain:"Pencegahan", text:"Asupan garam yang tinggi merupakan faktor risiko osteoporosis.", correct:"Benar" },
+  { domain:"Terapi", text:"Saat ini tidak tersedia pengobatan yang efektif untuk osteoporosis di Indonesia.", correct:"Salah" }
+];
+const QUIZ_OPTIONS = ["Benar", "Salah", "Tidak Tahu"];
+const SCORE_BANDS = [
+  { min:0, max:4, range:"0-4", pct:"0%-33%", category:"Kurang", interpretation:"Peserta belum memahami konsep dasar osteoporosis dan PBM; perlu penguatan edukasi pada seluruh domain." },
+  { min:5, max:8, range:"5-8", pct:"34%-74%", category:"Cukup", interpretation:"Peserta memahami sebagian konsep, namun belum konsisten pada domain faktor risiko dan pencegahan." },
+  { min:9, max:12, range:"9-12", pct:"≥75%", category:"Baik", interpretation:"Ambang keberhasilan program; peserta memahami mayoritas domain dengan baik." }
+];
+function getScoreBand(rawScore){
+  return SCORE_BANDS.find(b => rawScore >= b.min && rawScore <= b.max) || SCORE_BANDS[0];
+}
+function renderScoreBands(){
+  return `<div class="score-bands">${SCORE_BANDS.map(b => `
+    <div class="score-band">
+      <b>${b.category}</b>
+      <span>${b.range} benar · ${b.pct}</span>
+    </div>`).join('')}</div>`;
+}
 
 const FOOD_DB = {
   "Susu & Olahan Susu": [
@@ -715,7 +1066,7 @@ const FOOD_DB = {
     { name:"Oncom 100g", mg:96 }, { name:"Susu kedelai bubuk 1 sachet", mg:60 },
     { name:"Tahu bulat goreng 5 buah", mg:175 }, { name:"Kembang tahu 50g", mg:90 }
   ],
-  "Ikan & Seafood": [
+  "Ikan & Makanan Laut": [
     { name:"Ikan teri kering 30g", mg:480 }, { name:"Ikan teri basah 30g", mg:213 },
     { name:"Sarden kalengan 100g", mg:240 }, { name:"Ikan kembung goreng 100g", mg:60 },
     { name:"Ikan lele goreng 100g", mg:53 }, { name:"Ikan tongkol 100g", mg:35 },
@@ -808,69 +1159,74 @@ document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal();
 
 // ---------- renderers ----------
 function renderQuiz(){
-  openModal('01 / ASESMEN', 'Bone Health Quiz', `
-    <p>3 dari 15 pertanyaan asesmen — jawab buat lihat simulasi skor.</p>
+  const questionsHtml = QUIZ_ITEMS.map((item, idx)=>`
+    <div class="quiz-q">
+      <div class="quiz-meta"><span>${String(idx + 1).padStart(2, '0')}</span><span>${item.domain}</span></div>
+      <div class="qtext">${item.text}</div>
+      ${QUIZ_OPTIONS.map(opt=>`
+        <label class="quiz-opt"><input type="radio" name="q${idx}" value="${opt}"> ${opt}</label>
+      `).join('')}
+    </div>
+  `).join('');
+  openModal('01 / ASESMEN', 'Kuis Kesehatan Tulang', `
+    <p>12 item adaptasi OKAT dari instrumen evaluasi Ariel. Jawaban benar bernilai 1; jawaban salah atau Tidak Tahu bernilai 0.</p>
+    <div class="quiz-meta"><span>Benar/Salah/Tidak Tahu</span><span>Skor maksimal 12</span><span>Interpretasi otomatis</span></div>
     <form id="quizForm">
-      <div class="quiz-q">
-        <div class="qtext">1. Seberapa sering kamu olahraga weight-bearing (jalan cepat, lari, angkat beban) per minggu?</div>
-        <label class="quiz-opt"><input type="radio" name="q1" value="2"> 3x atau lebih</label>
-        <label class="quiz-opt"><input type="radio" name="q1" value="1"> 1–2x</label>
-        <label class="quiz-opt"><input type="radio" name="q1" value="0"> Hampir tidak pernah</label>
-      </div>
-      <div class="quiz-q">
-        <div class="qtext">2. Apakah kamu rutin minum susu / produk olahan susu?</div>
-        <label class="quiz-opt"><input type="radio" name="q2" value="2"> Hampir tiap hari</label>
-        <label class="quiz-opt"><input type="radio" name="q2" value="1"> Kadang-kadang</label>
-        <label class="quiz-opt"><input type="radio" name="q2" value="0"> Jarang/tidak pernah</label>
-      </div>
-      <div class="quiz-q">
-        <div class="qtext">3. Apakah ada riwayat osteoporosis/patah tulang di keluargamu?</div>
-        <label class="quiz-opt"><input type="radio" name="q3" value="0"> Ada</label>
-        <label class="quiz-opt"><input type="radio" name="q3" value="2"> Tidak ada</label>
-        <label class="quiz-opt"><input type="radio" name="q3" value="1"> Tidak tahu</label>
-      </div>
-      <button type="submit" class="mbtn">Lihat hasil simulasi</button>
+      ${questionsHtml}
+      <button type="submit" class="mbtn">Lihat Skor Kesehatan Tulang</button>
     </form>
     <div id="quizResult"></div>
   `);
   document.getElementById('quizForm').addEventListener('submit', (e)=>{
     e.preventDefault();
     const fd = new FormData(e.target);
-    let total = 0, answered = 0;
-    for(const [,v] of fd.entries()){ total += parseInt(v); answered++; }
-    if(answered < 3){ showToast('Jawab dulu ketiga pertanyaannya ya'); return; }
-    const pct = Math.round((total/6)*100);
+    let raw = 0, answered = 0;
+    QUIZ_ITEMS.forEach((item, idx)=>{
+      const answer = fd.get(`q${idx}`);
+      if(answer) answered++;
+      if(answer === item.correct) raw++;
+    });
+    if(answered < QUIZ_ITEMS.length){
+      showToast(`Jawab dulu semua ${QUIZ_ITEMS.length} item ya`);
+      return;
+    }
+    const pct = Math.round((raw / QUIZ_ITEMS.length) * 100);
+    const band = getScoreBand(raw);
     state.quizScore = pct;
-    const risk = pct >= 70 ? 'Rendah' : pct >= 40 ? 'Sedang' : 'Tinggi';
+    state.quizRaw = raw;
+    state.quizCategory = band.category;
+    state.quizInterpretation = band.interpretation;
     document.getElementById('quizResult').innerHTML = `
-      <div style="margin-top:16px; padding:14px; border:1px solid var(--line-dark); border-radius:4px;">
-        <div class="progress-label"><span>Skor simulasi</span><span>${pct}/100</span></div>
+      <div class="score-card">
+        <div class="progress-label"><span>Skor Kesehatan Tulang</span><span>${raw}/${QUIZ_ITEMS.length} · ${pct}%</span></div>
         <div class="progress-track"><div class="progress-fill" style="width:${pct}%;"></div></div>
-        <p style="margin-top:10px; margin-bottom:0;">Estimasi tingkat risiko: <strong style="color:var(--ink);">${risk}</strong>. Skor lengkap (15 item) akan dipakai buat generate Bone Health Score harianmu.</p>
+        <p class="score-interpretation"><strong>Kategori ${band.category}.</strong> ${band.interpretation}</p>
       </div>`;
-    showToast('Hasil quiz tersimpan ✓');
+    showToast(`Skor OKAT ${raw}/${QUIZ_ITEMS.length} - ${band.category}`);
   });
 }
 
 function renderScore(){
-  const pct = state.quizScore ?? 58;
-  const risk = pct >= 70 ? 'Rendah' : pct >= 40 ? 'Sedang' : 'Tinggi';
-  openModal('02 / SKOR', 'Bone Health Score', `
-    <p>${state.quizScore===null ? 'Belum isi quiz — ini contoh tampilan dengan skor demo.' : 'Dihitung dari hasil quiz dan log harianmu.'}</p>
-    <div style="padding:16px; border:1px solid var(--line-dark); border-radius:4px;">
-      <div class="progress-label"><span>Bone Health Score</span><span>${pct}/100</span></div>
+  const hasScore = state.quizRaw !== null;
+  const raw = hasScore ? state.quizRaw : 0;
+  const pct = hasScore ? state.quizScore : 0;
+  const band = hasScore ? getScoreBand(raw) : null;
+  openModal('02 / SKOR', 'Skor Kesehatan Tulang', `
+    <p>${hasScore ? 'Dihitung dari 12 item adaptasi OKAT di Kuis Kesehatan Tulang.' : 'Belum ada skor. Isi Kuis Kesehatan Tulang dulu untuk menghasilkan kategori dari interpretasi OKAT.'}</p>
+    <div class="score-card">
+      <div class="progress-label"><span>Skor Kesehatan Tulang</span><span>${hasScore ? `${raw}/${QUIZ_ITEMS.length} · ${pct}%` : 'Belum diisi'}</span></div>
       <div class="progress-track"><div class="progress-fill" style="width:${pct}%;"></div></div>
-      <p style="margin-top:12px; margin-bottom:0;">Kategori risiko: <strong style="color:var(--ink);">${risk}</strong></p>
+      <p class="score-interpretation">${hasScore ? `<strong>Kategori ${band.category}.</strong> ${band.interpretation}` : 'Skor akan masuk kategori Kurang, Cukup, atau Baik setelah kuis lengkap diisi.'}</p>
     </div>
-    <p style="margin-top:14px;">Skor ini diperbarui tiap hari berdasarkan Calcium Tracker dan Activity Log-mu — makin konsisten, makin akurat gambaran risikonya.</p>
-    <button class="mbtn secondary" id="goQuiz">Isi quiz dulu</button>
+    ${renderScoreBands()}
+    <button class="mbtn secondary" id="goQuiz">${hasScore ? 'Ulangi kuis' : 'Isi kuis dulu'}</button>
   `);
   const btn = document.getElementById('goQuiz');
   if(btn) btn.addEventListener('click', renderQuiz);
 }
 
 function renderCalcium(){
-  openModal('03 / NUTRISI', 'Calcium Tracker', `
+  openModal('03 / NUTRISI', 'Pelacak Kalsium', `
     <p>Target harian: <strong>${state.calciumTarget} mg</strong>. Ketik nama makanan, pilih dari saran yang muncul.</p>
     <div class="mform-row" style="position:relative;">
       <label>Cari &amp; tambah makanan</label>
@@ -879,7 +1235,7 @@ function renderCalcium(){
     </div>
     <div class="progress-label" style="margin-top:6px;"><span>Total hari ini</span><span id="calTotal">${state.calciumLogged} mg</span></div>
     <div class="progress-track"><div class="progress-fill" id="calFill" style="width:${Math.min(100, state.calciumLogged/state.calciumTarget*100)}%;"></div></div>
-    <p style="font-size:0.78rem; margin-top:14px; margin-bottom:6px;">Log hari ini:</p>
+    <p style="font-size:0.78rem; margin-top:14px; margin-bottom:6px;">Catatan hari ini:</p>
     <div class="food-list" id="foodLog"></div>
   `);
   renderFoodLog();
@@ -897,9 +1253,9 @@ function renderCalcium(){
     suggestBox.style.display = 'none';
     if(state.calciumLogged >= state.calciumTarget && !state.badgesUnlocked.calciumHit){
       state.badgesUnlocked.calciumHit = true;
-      showToast('Target kalsium tercapai — badge terbuka! 🦴');
+      showToast('Target kalsium tercapai - lencana terbuka! 🦴');
     } else {
-      showToast(f.name + ' ditambahkan ke log');
+      showToast(f.name + ' ditambahkan ke catatan');
     }
   }
 
@@ -908,7 +1264,7 @@ function renderCalcium(){
     if(!q){ suggestBox.style.display = 'none'; return; }
     const matches = FOODS.filter(f => f.name.toLowerCase().includes(q)).slice(0, 6);
     if(!matches.length){
-      suggestBox.innerHTML = `<div class="food-item" style="color:var(--ink-soft);"><span>Ga ketemu di database — coba kata kunci lain</span><span></span></div>`;
+      suggestBox.innerHTML = `<div class="food-item" style="color:var(--ink-soft);"><span>Ga ketemu di database - coba kata kunci lain</span><span></span></div>`;
       suggestBox.style.display = 'block';
       return;
     }
@@ -926,12 +1282,12 @@ function renderFoodLog(){
   const el = document.getElementById('foodLog');
   if(!el) return;
   const items = state.calciumLogItems || [];
-  el.innerHTML = items.length ? items.map(i=>`<div class="food-item"><span>${i.name}</span><span>${i.mg}mg</span></div>`).join('') : `<div class="food-item" style="color:var(--ink-soft);"><span>Belum ada log hari ini</span><span></span></div>`;
+  el.innerHTML = items.length ? items.map(i=>`<div class="food-item"><span>${i.name}</span><span>${i.mg}mg</span></div>`).join('') : `<div class="food-item" style="color:var(--ink-soft);"><span>Belum ada catatan hari ini</span><span></span></div>`;
 }
 
 function renderActivity(){
-  openModal('04 / AKTIVITAS', 'Activity Log', `
-    <p>Target mingguan: <strong>${state.activityTarget} km</strong> latihan weight-bearing (jalan cepat/lari).</p>
+  openModal('04 / AKTIVITAS', 'Catatan Aktivitas', `
+    <p>Target mingguan: <strong>${state.activityTarget} km</strong> latihan menumpu beban (jalan cepat/lari).</p>
     <div class="mform-row">
       <label>Tambah jarak hari ini (km)</label>
       <input type="number" id="kmInput" min="0" step="0.1" placeholder="contoh: 3.5">
@@ -949,7 +1305,7 @@ function renderActivity(){
     document.getElementById('kmInput').value = '';
     if(state.activityKm >= 5 && !state.badgesUnlocked.fiveK){
       state.badgesUnlocked.fiveK = true;
-      showToast('5K weight-bearing tercapai — badge terbuka! 🏃');
+      showToast('5K latihan menumpu beban tercapai - lencana terbuka! 🏃');
     } else {
       showToast(v + ' km dicatat');
     }
@@ -957,22 +1313,22 @@ function renderActivity(){
 }
 
 function renderHub(){
-  openModal('05 / EDUKASI', 'Educational Hub', `
-    <p>Pilihan konten edukasi singkat — semua di bawah 60 detik baca/tonton.</p>
+  openModal('05 / EDUKASI', 'Pusat Edukasi', `
+    <p>Pilihan konten edukasi singkat - semua di bawah 60 detik baca/tonton.</p>
     <div class="food-list" style="max-height:none;">
-      <div class="food-item"><span>🎥 Apa itu Peak Bone Mass?</span><span>0:48</span></div>
-      <div class="food-item"><span>📊 Infografis: Sumber kalsium non-dairy</span><span>0:35</span></div>
-      <div class="food-item"><span>🎥 Kenapa weight-bearing penting di usia 20-an</span><span>0:52</span></div>
-      <div class="food-item"><span>📄 Artikel: Vitamin D &amp; penyerapan kalsium</span><span>~2 min baca</span></div>
+      <div class="food-item"><span>🎥 Apa itu Massa Tulang Puncak?</span><span>0:48</span></div>
+      <div class="food-item"><span>📊 Infografis: Sumber kalsium non-susu</span><span>0:35</span></div>
+      <div class="food-item"><span>🎥 Kenapa latihan menumpu beban penting di usia 20-an</span><span>0:52</span></div>
+      <div class="food-item"><span>📄 Artikel: Vitamin D &amp; penyerapan kalsium</span><span>~2 menit baca</span></div>
     </div>
     <button class="mbtn" style="margin-top:16px;" id="dummyOpen">Buka konten pertama</button>
   `);
-  document.getElementById('dummyOpen').addEventListener('click', ()=> showToast('Demo — konten asli nanti link ke video/artikel'));
+  document.getElementById('dummyOpen').addEventListener('click', ()=> showToast('Demo - konten asli nanti link ke video/artikel'));
 }
 
 function renderWeekly(){
   openModal('06 / TARGET', 'Target Mingguan', `
-    <p>Set target kalsium harian dan frekuensi latihanmu minggu ini.</p>
+    <p>Tentukan target kalsium harian dan frekuensi latihanmu minggu ini.</p>
     <div class="mform-row">
       <label>Target kalsium harian (mg)</label>
       <input type="number" id="calGoalInput" value="${state.weeklyCalGoal}" step="50">
@@ -987,33 +1343,33 @@ function renderWeekly(){
     state.weeklyCalGoal = parseInt(document.getElementById('calGoalInput').value) || state.weeklyCalGoal;
     state.weeklyExGoal = parseInt(document.getElementById('exGoalInput').value) || state.weeklyExGoal;
     state.calciumTarget = state.weeklyCalGoal;
-    showToast('Target mingguan disimpan ✓');
+    showToast('Target mingguan disimpan');
     closeModal();
   });
 }
 
 function renderBadges(){
   const b = state.badgesUnlocked;
-  openModal('07 / GAMIFIKASI', 'Bone Coins & Badges', `
-    <p>Badge terbuka otomatis dari aktivitas yang kamu log di Calcium Tracker dan Activity Log.</p>
+  openModal('07 / GAMIFIKASI', 'Koin Tulang & Lencana', `
+    <p>Lencana terbuka otomatis dari aktivitas yang kamu catat di Pelacak Kalsium dan Catatan Aktivitas.</p>
     <div class="badge-grid">
       <div class="badge-tile ${b.streak7?'':'locked'}"><div class="bicon">🔥</div>7 Hari Beruntun</div>
       <div class="badge-tile ${b.calciumHit?'':'locked'}"><div class="bicon">🥛</div>Kalsium Tercapai</div>
-      <div class="badge-tile ${b.fiveK?'':'locked'}"><div class="bicon">🏃</div>5K Weight-Bearing</div>
+      <div class="badge-tile ${b.fiveK?'':'locked'}"><div class="bicon">🏃</div>5K Menumpu Beban</div>
       <div class="badge-tile ${state.joined?'':'locked'}"><div class="bicon">🦴</div>#MenabungTulang</div>
     </div>
   `);
 }
 
 function renderJoin(){
-  openModal('08 / CHALLENGE', '#MenabungTulang Challenge', `
-    <p>Gabung challenge buat masuk leaderboard global kampus. Poin dihitung dari km lari + target kalsium harian yang tercapai.</p>
+  openModal('08 / TANTANGAN', 'Tantangan #MenabungTulang', `
+    <p>Gabung tantangan untuk masuk papan peringkat kampus. Poin dihitung dari jarak lari dan target kalsium harian yang tercapai.</p>
     ${state.joined ? `
       <div style="padding:14px; border:1px solid var(--line-dark); border-radius:4px; margin-bottom:14px;">
-        <p style="margin-bottom:0;">Kamu sudah gabung — poin saat ini: <strong style="color:var(--ink);">${state.challengePts}</strong></p>
+        <p style="margin-bottom:0;">Kamu sudah gabung - poin saat ini: <strong style="color:var(--ink);">${state.challengePts}</strong></p>
       </div>
-      <button class="mbtn secondary" id="leaveBtn">Keluar Challenge</button>
-    ` : `<button class="mbtn" id="joinBtn">Gabung Challenge</button>`}
+      <button class="mbtn secondary" id="leaveBtn">Keluar Tantangan</button>
+    ` : `<button class="mbtn" id="joinBtn">Gabung Tantangan</button>`}
   `);
   const btn = document.getElementById('joinBtn');
   if(btn) btn.addEventListener('click', ()=>{
@@ -1029,7 +1385,7 @@ function renderJoin(){
   if(leaveBtn) leaveBtn.addEventListener('click', ()=>{
     state.joined = false;
     state.challengePts = 0;
-    document.getElementById('lb-you-pts').textContent = '—';
+    document.getElementById('lb-you-pts').textContent = '-';
     document.getElementById('lb-you-badge').textContent = 'gabung dulu';
     document.getElementById('lb-you-badge').style.opacity = '0.5';
     showToast('Kamu keluar dari #MenabungTulang');
@@ -1039,7 +1395,7 @@ function renderJoin(){
 
 document.getElementById('sectionJoinBtn').addEventListener('click', renderJoin);
 function syncSectionBtn(){
-  document.getElementById('sectionJoinBtn').textContent = state.joined ? 'Keluar Challenge' : 'Gabung Challenge';
+  document.getElementById('sectionJoinBtn').textContent = state.joined ? 'Keluar Tantangan' : 'Gabung Tantangan';
 }
 const _origCloseModal = closeModal;
 closeModal = function(){ _origCloseModal(); syncSectionBtn(); };
@@ -1054,6 +1410,107 @@ document.querySelectorAll('[data-component]').forEach(el=>{
     })[c]();
   });
 });
+</script>
+
+<script>
+(() => {
+  const root = document.getElementById('awardApp');
+  if(!root) return;
+  const $ = (sel, base = document) => base.querySelector(sel);
+  const $$ = (sel, base = document) => Array.from(base.querySelectorAll(sel));
+  const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
+  const knowledge = $('#awKnowledge');
+  const calcium = $('#awCalcium');
+  const activity = $('#awActivity');
+  const ring = $('#awRing');
+  const scoreText = $('#awScore');
+  const label = $('#awLabel');
+  const advice = $('#awAdvice');
+
+  function updateAwSimulation(){
+    const k = Number(knowledge.value);
+    const c = Number(calcium.value);
+    const a = Number(activity.value);
+    const kPct = Math.round(k / 12 * 100);
+    const cPct = clamp(Math.round(c / 1000 * 100), 0, 100);
+    const aPct = Math.round(a / 7 * 100);
+    const score = Math.round(kPct * .44 + cPct * .34 + aPct * .22);
+    const strong = score >= 78;
+    const medium = score >= 54;
+
+    $('#awKnowledgeOut').textContent = `${k} / 12`;
+    $('#awCalciumOut').textContent = `${c} mg`;
+    $('#awActivityOut').textContent = `${a} / minggu`;
+    scoreText.textContent = score;
+    label.textContent = strong ? 'Kesiapan Baik' : medium ? 'Kesiapan Sedang' : 'Perlu Penguatan';
+    advice.textContent = strong
+      ? 'Indikator kesiapan sudah baik. Pertahankan pencatatan dan aktivitas secara konsisten.'
+      : medium
+        ? 'Nilai dasar sudah cukup. Pencatatan kalsium dan tambahan satu sesi aktivitas dapat meningkatkan indikator kesiapan.'
+        : 'Perlu penguatan awal melalui pengisian kuis, pencatatan kalsium, dan latihan menumpu beban secara bertahap.';
+    ring.style.setProperty('--ring', `${score * 3.6}deg`);
+    ring.style.setProperty('--ring-color', strong ? '#6de06e' : medium ? '#ffd84d' : '#ff5a55');
+    $('#awKnowledgeFill').style.width = `${kPct}%`;
+    $('#awCalciumFill').style.width = `${cPct}%`;
+    $('#awActivityFill').style.width = `${aPct}%`;
+    $('#awKnowledgePct').textContent = `${kPct}%`;
+    $('#awCalciumPct').textContent = `${cPct}%`;
+    $('#awActivityPct').textContent = `${aPct}%`;
+  }
+
+  [knowledge, calcium, activity].forEach(input => input && input.addEventListener('input', updateAwSimulation));
+  $('#awBoost')?.addEventListener('click', () => {
+    knowledge.value = 10;
+    calcium.value = 1080;
+    activity.value = 5;
+    updateAwSimulation();
+    if(typeof showToast === 'function') showToast('Skenario dinaikkan');
+  });
+  $('#awReset')?.addEventListener('click', () => {
+    knowledge.value = 7;
+    calcium.value = 720;
+    activity.value = 3;
+    updateAwSimulation();
+  });
+
+  let joined = false;
+  $('#awJoin')?.addEventListener('click', () => {
+    joined = !joined;
+    $('#awJoin').textContent = joined ? 'Keluar tantangan' : 'Gabung tantangan';
+    $('#awYouPoints').textContent = joined ? '120 poin' : 'belum gabung';
+    $('#awYouPost').textContent = joined
+      ? 'Aku resmi ikut #MenabungTulang. Target minggu ini: konsisten catat kalsium dan jalan cepat.'
+      : 'Gabung tantangan untuk masuk dinding sosial kampus.';
+    if(typeof showToast === 'function') showToast(joined ? 'Tantangan diikuti' : 'Keluar dari tantangan');
+  });
+
+  $('#awPostBtn')?.addEventListener('click', () => {
+    const text = $('#awWallText').value.trim();
+    if(!text){
+      if(typeof showToast === 'function') showToast('Isi caption dulu');
+      return;
+    }
+    const post = document.createElement('article');
+    post.className = 'aw-post';
+    post.innerHTML = `<div class="aw-post-head"><strong>Kamu</strong><small>baru saja</small></div><p>${text.replace(/[<>&]/g, ch => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[ch]))}</p>`;
+    $('#awWall').prepend(post);
+    if(typeof showToast === 'function') showToast('Progres diposting');
+  });
+
+  $$('.aw-faq-q').forEach(button => {
+    button.addEventListener('click', () => button.closest('.aw-faq-item').classList.toggle('open'));
+  });
+
+  const progress = $('#awProgress');
+  function updateProgress(){
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.transform = `scaleX(${max ? window.scrollY / max : 0})`;
+  }
+  window.addEventListener('scroll', updateProgress, { passive:true });
+  updateAwSimulation();
+  updateProgress();
+})();
 </script>
 
 </body>
