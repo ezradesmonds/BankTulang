@@ -79,17 +79,22 @@ export function setupScrollDirector(boneScene) {
       }));
 
       if (index < scenes.length - 1) {
-        contexts.push(gsap.to(content, {
-          autoAlpha: isHero ? 0.12 : 0.2,
-          y: -34,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: scene,
-            start: 'center 34%',
-            end: 'bottom 18%',
-            scrub: 0.45,
+        contexts.push(gsap.fromTo(
+          content,
+          { autoAlpha: 1, y: 0 },
+          {
+            autoAlpha: isHero ? 0.12 : 0.2,
+            y: -34,
+            ease: 'none',
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: scene,
+              start: 'center 34%',
+              end: 'bottom 18%',
+              scrub: 0.45,
+            },
           },
-        }));
+        ));
       }
     });
   } else {

@@ -5,11 +5,11 @@ const uid = () => globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.ran
 
 function quizMarkup() {
   const questions = QUIZ_ITEMS.map((item, index) => `
-    <fieldset class="quiz-question">
-      <legend class="quiz-question-index">${String(index + 1).padStart(2, '0')}</legend>
-      <div>
+    <section class="quiz-question" role="group" aria-labelledby="quiz-question-${index}">
+      <span class="quiz-question-index" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>
+      <div class="quiz-question-body">
         <span class="quiz-domain">${item.domain}</span>
-        <p>${item.text}</p>
+        <p id="quiz-question-${index}">${item.text}</p>
         <div class="quiz-options">
           ${QUIZ_OPTIONS.map((option) => `
             <label class="quiz-option">
@@ -19,7 +19,7 @@ function quizMarkup() {
           `).join('')}
         </div>
       </div>
-    </fieldset>
+    </section>
   `).join('');
 
   return `
