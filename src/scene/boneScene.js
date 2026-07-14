@@ -270,14 +270,11 @@ export async function createBoneScene(canvas) {
   resize();
   render();
   document.documentElement.classList.add('webgl-ready');
-  canvas.parentElement?.style.setProperty('--bone-underlay-opacity', '0.2');
 
   return {
     ready: true,
     setProgress(value) {
       progress = Math.min(1, Math.max(0, value));
-      const heroPresence = Math.max(0, 1 - progress * 5.5);
-      canvas.parentElement?.style.setProperty('--bone-underlay-opacity', (heroPresence * 0.2).toFixed(3));
     },
     setFormation(value) {
       targetFormation = Math.min(1, Math.max(0, value));
@@ -288,7 +285,6 @@ export async function createBoneScene(canvas) {
       resizeObserver.disconnect();
       visibilityObserver.disconnect();
       window.removeEventListener('pointermove', onPointerMove);
-      canvas.parentElement?.style.removeProperty('--bone-underlay-opacity');
       points.geometry.dispose();
       points.material.dispose();
       renderer.dispose();
