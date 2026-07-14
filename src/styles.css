@@ -327,7 +327,8 @@ canvas {
 }
 
 .webgl-ready .bone-fallback {
-  opacity: 0;
+  opacity: var(--bone-underlay-opacity, 0.2);
+  filter: saturate(1.08) contrast(1.12) brightness(0.74);
 }
 
 .scene-vignette {

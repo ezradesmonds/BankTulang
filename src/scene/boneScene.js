@@ -15,7 +15,7 @@ const vertexShader = `
   void main() {
     float formed = smoothstep(0.0, 1.0, uFormation);
     vec3 positionMixed = mix(aScatter, position, formed);
-    float drift = (1.0 - formed) * 0.18 + 0.025;
+    float drift = (1.0 - formed) * 0.12 + 0.008;
     positionMixed.x += sin(uTime * 0.55 + aPhase * 9.0) * drift;
     positionMixed.y += cos(uTime * 0.43 + aPhase * 7.0) * drift;
     positionMixed.z += sin(uTime * 0.32 + aPhase * 12.0) * drift * 1.8;
@@ -23,9 +23,9 @@ const vertexShader = `
     vec4 modelPosition = modelMatrix * vec4(positionMixed, 1.0);
     vec4 viewPosition = viewMatrix * modelPosition;
     gl_Position = projectionMatrix * viewPosition;
-    gl_PointSize = clamp(uPointScale * (8.0 / -viewPosition.z), 1.2, 5.4);
+    gl_PointSize = clamp(uPointScale * (8.0 / -viewPosition.z), 1.6, 7.2);
     vColor = color;
-    vAlpha = 0.52 + formed * 0.48;
+    vAlpha = 0.68 + formed * 0.32;
   }
 `;
 
@@ -71,8 +71,7 @@ function sampleImage(image, limit) {
       const green = pixels[offset + 1];
       const blue = pixels[offset + 2];
       const brightness = (red + green + blue) / 3;
-      const blueSignal = blue > red * 1.02 && blue > 32;
-      if (brightness < 28 || !blueSignal) continue;
+      if (brightness < 24) continue;
 
       const sample = { x, y, red, green, blue };
       seen += 1;
@@ -91,7 +90,7 @@ function sampleImage(image, limit) {
 function makePointCloud(image, uniforms) {
   const isMobile = window.innerWidth < 640;
   const isTablet = window.innerWidth < 980;
-  const limit = isMobile ? 5200 : isTablet ? 9000 : 15000;
+  const limit = isMobile ? 6800 : isTablet ? 12000 : 20000;
   const { samples, width, height } = sampleImage(image, limit);
   const count = samples.length;
   const positions = new Float32Array(count * 3);
@@ -104,7 +103,7 @@ function makePointCloud(image, uniforms) {
     const i = index * 3;
     positions[i] = (sample.x / width - 0.5) * 4.7;
     positions[i + 1] = (0.5 - sample.y / height) * 6.6;
-    positions[i + 2] = (Math.random() - 0.5) * 0.48 + Math.sin(sample.y * 0.06) * 0.08;
+    positions[i + 2] = (Math.random() - 0.5) * 0.2 + Math.sin(sample.y * 0.06) * 0.035;
 
     const radius = 7 + Math.random() * 8;
     const theta = Math.random() * Math.PI * 2;
@@ -182,8 +181,8 @@ export async function createBoneScene(canvas) {
 
   const uniforms = {
     uTime: { value: 0 },
-    uFormation: { value: 0 },
-    uPointScale: { value: window.innerWidth < 640 ? 9 : 12 },
+    uFormation: { value: 0.86 },
+    uPointScale: { value: window.innerWidth < 640 ? 11 : 16 },
     uTint: { value: new THREE.Color(0x5eb7ff) },
   };
 
@@ -196,7 +195,7 @@ export async function createBoneScene(canvas) {
   scene.add(points);
 
   let progress = 0;
-  let targetFormation = 0.9;
+  let targetFormation = 1;
   let visible = true;
   let destroyed = false;
   let animationFrame = 0;
@@ -217,14 +216,14 @@ export async function createBoneScene(canvas) {
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
-    uniforms.uPointScale.value = width < 640 ? 9 : width < 980 ? 10.5 : 12;
+    uniforms.uPointScale.value = width < 640 ? 11 : width < 980 ? 14 : 16;
   }
 
   function applyProgress() {
     const isMobile = window.innerWidth < 860;
     const xFrames = isMobile ? [0.65, -0.1, 0.45, -0.05] : [2.05, -1.75, 1.85, -1.55];
     const yFrames = isMobile ? [-0.8, -0.75, -0.9, -0.7] : [0, 0.15, -0.05, 0.2];
-    const scaleFrames = isMobile ? [0.7, 0.64, 0.68, 0.62] : [0.9, 0.82, 0.88, 0.78];
+    const scaleFrames = isMobile ? [0.64, 0.6, 0.64, 0.58] : [0.76, 0.72, 0.76, 0.7];
     points.position.x = interpolateKeyframes(progress, xFrames);
     points.position.y = interpolateKeyframes(progress, yFrames);
     points.scale.setScalar(interpolateKeyframes(progress, scaleFrames));
@@ -236,7 +235,7 @@ export async function createBoneScene(canvas) {
     const index = Math.floor(scaled);
     const amount = scaled - index;
     uniforms.uTint.value.lerpColors(colorStops[index], colorStops[index + 1], amount);
-    targetFormation = interpolateKeyframes(progress, [0.92, 1, 0.9, 0.76]);
+    targetFormation = interpolateKeyframes(progress, [1, 0.99, 0.95, 0.86]);
   }
 
   function render() {
@@ -271,11 +270,14 @@ export async function createBoneScene(canvas) {
   resize();
   render();
   document.documentElement.classList.add('webgl-ready');
+  canvas.parentElement?.style.setProperty('--bone-underlay-opacity', '0.2');
 
   return {
     ready: true,
     setProgress(value) {
       progress = Math.min(1, Math.max(0, value));
+      const heroPresence = Math.max(0, 1 - progress * 5.5);
+      canvas.parentElement?.style.setProperty('--bone-underlay-opacity', (heroPresence * 0.2).toFixed(3));
     },
     setFormation(value) {
       targetFormation = Math.min(1, Math.max(0, value));
@@ -286,6 +288,7 @@ export async function createBoneScene(canvas) {
       resizeObserver.disconnect();
       visibilityObserver.disconnect();
       window.removeEventListener('pointermove', onPointerMove);
+      canvas.parentElement?.style.removeProperty('--bone-underlay-opacity');
       points.geometry.dispose();
       points.material.dispose();
       renderer.dispose();
