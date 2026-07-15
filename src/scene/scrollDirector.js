@@ -17,6 +17,7 @@ export function setupScrollDirector(boneScene) {
   const progressBar = document.querySelector('#scroll-progress');
   const nav = document.querySelector('.site-nav');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const compactViewport = window.matchMedia('(max-width: 860px)').matches;
   const contexts = [];
 
   const onWindowScroll = () => {
@@ -40,7 +41,11 @@ export function setupScrollDirector(boneScene) {
       const content = scene.querySelector('.scene-content');
       if (!content) return;
       const isHero = index === 0;
-      if (isHero) {
+      if (compactViewport) {
+        // Mobile chapters are short, so keeping copy fully opaque prevents the canvas
+        // from visually competing with the text while the user is scrolling.
+        gsap.set(content, { autoAlpha: 1, y: 0 });
+      } else if (isHero) {
         if (document.documentElement.classList.contains('page-revealed')) {
           gsap.set(content, { autoAlpha: 1, y: 0 });
         } else {
@@ -78,7 +83,7 @@ export function setupScrollDirector(boneScene) {
         },
       }));
 
-      if (index < scenes.length - 1) {
+      if (!compactViewport && index < scenes.length - 1) {
         contexts.push(gsap.fromTo(
           content,
           { autoAlpha: 1, y: 0 },

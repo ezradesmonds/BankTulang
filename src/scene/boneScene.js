@@ -221,7 +221,7 @@ export async function createBoneScene(canvas) {
 
   function applyProgress() {
     const isMobile = window.innerWidth < 860;
-    const xFrames = isMobile ? [0.65, -0.1, 0.45, -0.05] : [2.05, -1.75, 1.85, -1.55];
+    const xFrames = isMobile ? [1.05, 0.68, 0.92, 0.62] : [2.05, -1.75, 1.85, -1.55];
     const yFrames = isMobile ? [-0.8, -0.75, -0.9, -0.7] : [0, 0.15, -0.05, 0.2];
     const scaleFrames = isMobile ? [0.64, 0.6, 0.64, 0.58] : [0.76, 0.72, 0.76, 0.7];
     points.position.x = interpolateKeyframes(progress, xFrames);

@@ -373,11 +373,6 @@ canvas {
   pointer-events: auto;
 }
 
-.signals-anchor {
-  position: absolute;
-  top: 100svh;
-}
-
 .scene-content {
   width: min(620px, 54%);
   will-change: transform, opacity;
@@ -1627,9 +1622,15 @@ canvas {
   .brand span { font-size: 0.95rem; }
   .brand img { width: 40px; height: 40px; }
   .cinematic-visual {
+    isolation: isolate;
     background:
       linear-gradient(180deg, rgba(9, 6, 18, 0.94) 0%, rgba(9, 6, 18, 0.54) 46%, rgba(9, 6, 18, 0.82) 84%),
       radial-gradient(ellipse at 56% 52%, #21103d, #090612 72%);
+  }
+  #bone-canvas {
+    inset: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
   }
   .cinematic-visual::before { background-size: 58px 58px; mask-image: linear-gradient(to bottom, transparent, #000 46%, transparent); }
   .bone-fallback { right: -12%; top: 56%; width: 82vw; height: 66svh; opacity: 0.55; }
@@ -1637,6 +1638,13 @@ canvas {
   .scroll-scene { align-items: flex-start; padding-top: 112px; }
   .scene-content,
   .signal-copy { width: 100%; }
+  .scene-content { isolation: isolate; }
+  .hero-copy > p,
+  .signal-copy > p,
+  .signal-live span {
+    color: var(--bone);
+    text-shadow: 0 2px 16px rgba(9, 6, 18, 0.96);
+  }
   .hero-copy h1 { max-width: 9ch; font-size: 4.35rem; }
   .hero-copy > p { max-width: 38ch; font-size: 1rem; }
   .next-chapter { left: 0; bottom: 20px; }
@@ -1691,18 +1699,18 @@ canvas {
   .brand span { max-width: 74px; font-size: 0.78rem; line-height: 1; }
   .nav-action { min-height: 42px; padding: 0 14px; }
   .nav-action svg { display: none; }
-  .cinematic { min-height: 360svh; }
-  .scroll-scene { min-height: 90svh; }
-  .signals-anchor { top: 90svh; }
+  .cinematic { min-height: 400svh; }
+  .scroll-scene { min-height: 100svh; }
   .hero-copy h1 { max-width: 8.6ch; font-size: 3.45rem; line-height: 0.91; }
   .hero-copy > p { max-width: 32ch; margin-top: 18px; font-size: 0.92rem; }
   .hero-actions { margin-top: 22px; }
   .hero-actions .button { width: 100%; min-height: 50px; }
-  .next-chapter { bottom: 14px; }
+  .hero-scene .next-chapter { bottom: 58px; }
   .scene-readout { bottom: 10px; font-size: 0.57rem; }
   .scene-readout-left { left: 12px; }
   .scene-readout-right { right: 12px; }
-  .signal-scene { min-height: 90svh; padding-bottom: 46px; }
+  .signal-scene { min-height: 100svh; padding-bottom: 46px; }
+  .signal-copy { width: min(72%, 290px); }
   .signal-copy h2 { max-width: 10ch; font-size: 2.7rem; }
   .signal-copy > p { margin-top: 14px; font-size: 0.88rem; }
   .signal-live { margin-top: 22px; }
