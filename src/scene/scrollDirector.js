@@ -12,6 +12,7 @@ const SCENE_LABELS = {
 
 export function setupScrollDirector(boneScene) {
   const cinematic = document.querySelector('.cinematic');
+  const visual = document.querySelector('.cinematic-visual');
   const readout = document.querySelector('#scene-readout');
   const scenes = Array.from(document.querySelectorAll('.scroll-scene'));
   const progressBar = document.querySelector('#scroll-progress');
@@ -30,6 +31,19 @@ export function setupScrollDirector(boneScene) {
   onWindowScroll();
 
   if (!reduceMotion && cinematic) {
+    if (compactViewport && visual) {
+      visual.classList.add('is-active');
+      contexts.push(ScrollTrigger.create({
+        trigger: cinematic,
+        start: 'top bottom',
+        end: 'bottom top',
+        onEnter: () => visual.classList.add('is-active'),
+        onEnterBack: () => visual.classList.add('is-active'),
+        onLeave: () => visual.classList.remove('is-active'),
+        onLeaveBack: () => visual.classList.remove('is-active'),
+      }));
+    }
+
     contexts.push(ScrollTrigger.create({
       trigger: cinematic,
       start: 'top top',
@@ -121,6 +135,7 @@ export function setupScrollDirector(boneScene) {
 
   return () => {
     contexts.forEach((context) => context?.kill?.());
+    visual?.classList.remove('is-active');
     revealObserver.disconnect();
     window.removeEventListener('scroll', onWindowScroll);
   };
