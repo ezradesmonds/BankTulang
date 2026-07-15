@@ -1622,19 +1622,16 @@ canvas {
   .brand span { font-size: 0.95rem; }
   .brand img { width: 40px; height: 40px; }
   .cinematic-visual {
-    position: fixed;
-    inset: 0;
-    height: 100dvh;
+    position: sticky;
+    inset: auto;
+    top: 0;
+    height: 100svh;
     min-height: 100svh;
-    opacity: 0;
-    transition: opacity 180ms ease;
     isolation: isolate;
     background:
       linear-gradient(180deg, rgba(9, 6, 18, 0.94) 0%, rgba(9, 6, 18, 0.54) 46%, rgba(9, 6, 18, 0.82) 84%),
       radial-gradient(ellipse at 56% 52%, #21103d, #090612 72%);
   }
-  .cinematic-visual.is-active { opacity: 1; }
-  .scene-track { margin-top: 0; }
   #bone-canvas {
     inset: -2px;
     width: calc(100% + 4px);
